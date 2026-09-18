@@ -21,25 +21,10 @@
     {
       "id": "weddings",
       "title": "Weddings",
-      "type": "group",
-      "children": [
-        {
-          "id": "ceremony",
-          "title": "Ceremony",
-          "type": "gallery",
-          "header": { "title": "", "meta": "", "quote": "", "description": "" },
-          "photos": [],
-          "texts": []
-        },
-        {
-          "id": "reception",
-          "title": "Reception",
-          "type": "gallery",
-          "header": { "title": "", "meta": "", "quote": "", "description": "" },
-          "photos": [],
-          "texts": []
-        }
-      ]
+      "type": "gallery",
+      "header": { "title": "", "meta": "", "quote": "", "description": "" },
+      "photos": [],
+      "texts": []
     },
     {
       "id": "about",

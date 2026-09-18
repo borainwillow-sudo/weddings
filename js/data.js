@@ -59,12 +59,7 @@
     },
     pages: [
       { id: "home", title: "Home", type: "gallery", header: emptyHeader(), photos: [] },
-      {
-        id: "weddings",
-        title: "Weddings",
-        type: "group",
-        children: [galleryPage("Ceremony"), galleryPage("Reception")],
-      },
+      { id: "weddings", title: "Weddings", type: "gallery", header: emptyHeader(), photos: [] },
       {
         id: "about",
         title: "About",
