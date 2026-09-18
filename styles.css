@@ -1028,7 +1028,7 @@ body.is-editing {
      height there rather than taking a share of a column. */
   .mobile-bar .site-logo {
     width: auto;
-    max-height: 30px;
+    max-height: var(--logo-mobile-h, 30px);
     max-width: 62vw;
   }
 

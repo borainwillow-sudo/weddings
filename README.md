@@ -146,6 +146,11 @@ guides and takes arrow-key nudges exactly like a photo does.
 **Style → Heading → Upload logo** replaces the text at the top with your own
 wordmark. Use a PNG with a transparent background.
 
+- **Logo width** sets how much of the sidebar column it fills, on desktop.
+- **Logo size on phones** is separate, since the mobile bar is a fixed-height
+  strip rather than a column — 100% is the default size, up to 300% for a
+  much bigger wordmark in the top bar.
+
 ## Custom cursor
 
 **Style → Cursor → Upload image** takes a small PNG with a transparent

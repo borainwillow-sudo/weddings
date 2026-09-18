@@ -704,6 +704,12 @@
       "--logo-width",
       (typeof logo.size === "number" ? logo.size : 100) + "%"
     );
+    // The mobile bar caps the logo by height rather than a column share, so
+    // its own size is a percentage of that base height instead of the width.
+    document.documentElement.style.setProperty(
+      "--logo-mobile-h",
+      Math.round(((typeof logo.mobileSize === "number" ? logo.mobileSize : 100) / 100) * 30) + "px"
+    );
     [$("site-name"), $("mobile-name")].forEach(function (el) {
       if (src) {
         el.innerHTML =
@@ -893,6 +899,7 @@
 
     var logo = data.logo || {};
     var logoSize = typeof logo.size === "number" ? logo.size : 100;
+    var logoMobileSize = typeof logo.mobileSize === "number" ? logo.mobileSize : 100;
     var logoPreview = logo.image
       ? '<img class="logo-preview" src="' + esc(window.WB.resolveSrc(logo.image)) + '" alt="">'
       : '<span class="hint" style="margin:0">No logo — showing the name as text.</span>';
@@ -922,6 +929,13 @@
             '">' +
             '<input type="number" id="logo-size-num" min="20" max="100" step="5" value="' +
             logoSize +
+            '"></div>' +
+            '<div class="typo-row"><span>Logo size on phones</span>' +
+            '<input type="range" id="logo-mobile-size" min="50" max="300" step="10" value="' +
+            logoMobileSize +
+            '">' +
+            '<input type="number" id="logo-mobile-size-num" min="50" max="300" step="10" value="' +
+            logoMobileSize +
             '"></div>'
           : "") +
         '<div class="group-heading">Cursor</div>' +
@@ -982,7 +996,7 @@
     var logoClear = modal.querySelector("#logo-clear");
     if (logoClear) {
       logoClear.addEventListener("click", function () {
-        data.logo = { image: null, size: 100 };
+        data.logo = { image: null, size: 100, mobileSize: 100 };
         renderHeading();
         markDirty();
         closeModal();
@@ -1008,6 +1022,27 @@
       });
       logoNum.addEventListener("input", function () {
         if (this.value !== "") setLogoSize(this.value);
+      });
+    }
+
+    var logoMobileRange = modal.querySelector("#logo-mobile-size");
+    var logoMobileNum = modal.querySelector("#logo-mobile-size-num");
+    if (logoMobileRange && logoMobileNum) {
+      var setLogoMobileSize = function (value) {
+        var n = Math.max(50, Math.min(300, Number(value)));
+        if (isNaN(n)) return;
+        data.logo = data.logo || {};
+        data.logo.mobileSize = n;
+        logoMobileRange.value = n;
+        logoMobileNum.value = n;
+        renderHeading();
+        markDirty();
+      };
+      logoMobileRange.addEventListener("input", function () {
+        setLogoMobileSize(this.value);
+      });
+      logoMobileNum.addEventListener("input", function () {
+        if (this.value !== "") setLogoMobileSize(this.value);
       });
     }
 
