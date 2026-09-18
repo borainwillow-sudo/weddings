@@ -469,6 +469,13 @@
     return (page.photos || []).concat(page.texts || []);
   }
 
+  // A "group" page is just a folder in the menu and never has its own
+  // content. Everything else — a gallery, and a text page below its fixed
+  // paragraph — has the same free-form canvas of photos and text blocks.
+  function hasCanvas(page) {
+    return !!page && page.type !== "group";
+  }
+
   var ALIGNMENTS = ["left", "center", "right"];
 
   function textHTML(item, order) {
@@ -645,20 +652,21 @@
       return;
     }
 
-    if (page.type === "text") {
-      var editing = window.WB.isEditing();
-      main.innerHTML =
-        headerHTML(page) +
-        '<div class="text-body" data-align="' +
-        pageAlign(page) +
-        '"' +
-        (editing ? ' contenteditable="true" data-body-field="1"' : "") +
-        ">" +
-        esc(page.body || "") +
-        "</div>" +
-        '<div class="page-footer"></div>';
-      return;
-    }
+    var editing = window.WB.isEditing();
+
+    // A text page's fixed paragraph sits above the same free-form canvas a
+    // gallery page has, so a page of prose can still take an extra photo or a
+    // separately-linked line of text — just not in place of the paragraph.
+    var fixedBody =
+      page.type === "text"
+        ? '<div class="text-body" data-align="' +
+          pageAlign(page) +
+          '"' +
+          (editing ? ' contenteditable="true" data-body-field="1"' : "") +
+          ">" +
+          esc(page.body || "") +
+          "</div>"
+        : "";
 
     var photos = page.photos || [];
     var texts = page.texts || [];
@@ -685,27 +693,33 @@
         })
         .join("");
 
+    // An empty canvas is the normal state for a text page that never gets any
+    // extras — only a gallery page prompts a visitor or editor about it.
+    var emptyNote =
+      items.length === 0 && page.type !== "text"
+        ? '<p class="empty-note">' +
+          (editing
+            ? "Nothing here yet — use “Add photos” or “Add text” below."
+            : "Nothing here yet.") +
+          "</p>"
+        : "";
+
     main.innerHTML =
       headerHTML(page) +
+      fixedBody +
       // The frame is what holds the page's height open on a phone, where the
       // canvas itself is laid out wide and then scaled down.
       '<div class="canvas-frame"><div class="canvas" id="canvas">' +
       canvasInner +
       '<div class="snap-overlay"></div>' +
       "</div></div>" +
-      (items.length === 0
-        ? '<p class="empty-note">' +
-          (window.WB.isEditing()
-            ? "Nothing here yet — use “Add photos” or “Add text” below."
-            : "Nothing here yet.") +
-          "</p>"
-        : "") +
+      emptyNote +
       '<div class="page-footer"></div>';
 
     var canvas = $("canvas");
     if (!canvas) return;
     window.WB.layout.applyPositions(canvas, items);
-    if (window.WB.isEditing() && window.innerWidth > 820) {
+    if (editing && window.innerWidth > 820) {
       window.WB.layout.enableEditing(canvas, items, function () {
         markDirty();
       });
@@ -1312,8 +1326,8 @@
 
   async function addFiles(fileList) {
     var page = findPage(data, currentId);
-    if (!page || page.type !== "gallery") {
-      alert("Photos can only be added to a gallery page.");
+    if (!hasCanvas(page)) {
+      alert("Photos can't be added to this kind of page.");
       return;
     }
     page.photos = page.photos || [];
@@ -1623,8 +1637,8 @@
 
   function addTextBlock() {
     var page = findPage(data, currentId);
-    if (!page || page.type !== "gallery") {
-      showNotice("Text blocks can only go on a photo page.");
+    if (!hasCanvas(page)) {
+      showNotice("Text blocks can't be added to this kind of page.");
       return;
     }
     page.texts = page.texts || [];
@@ -1963,7 +1977,7 @@
   $("btn-arrange").addEventListener("click", function () {
     var page = findPage(data, currentId);
     var items = page ? itemsOf(page) : [];
-    if (!page || page.type !== "gallery" || !items.length) {
+    if (!hasCanvas(page) || !items.length) {
       showNotice("Nothing to arrange on this page.");
       return;
     }

@@ -119,7 +119,9 @@ so cropping a rotated photo bakes the rotation into the new file.
 ## Text on a page
 
 **Add text** puts a paragraph on the canvas. It moves, resizes, snaps to the
-guides and takes arrow-key nudges exactly like a photo does.
+guides and takes arrow-key nudges exactly like a photo does. Every page has
+this canvas, including an About/Contact-style page — **Add photos** and
+**Add text** both work below its fixed paragraph, not just on a gallery page.
 
 - **Drag it by the dotted grip bar** along its top edge.
 - **Type straight into it.** Enter starts a new paragraph, and line breaks are kept.
