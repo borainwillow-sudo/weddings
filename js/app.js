@@ -90,41 +90,6 @@
     return out + esc(text.slice(pos));
   }
 
-  // The only formatting a text block or the body paragraph can carry is
-  // underline, applied with Ctrl/Cmd+U. This walks the field's DOM after an
-  // edit and rebuilds it as a string that's already fully escaped except for
-  // the <u> tags it deliberately keeps — safe to store as-is and safe to drop
-  // straight into innerHTML later with no further parsing at render time.
-  // Chrome/Safari leave the first line bare in the contenteditable root and
-  // wrap every line after it in its own <div>; a Shift+Enter soft break is a
-  // <br> either way. Anything else unexpected (a paste artifact) just loses
-  // its wrapping tag rather than losing the text inside it.
-  function extractFormatted(el) {
-    var out = "";
-    function walk(node) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        out += esc(node.nodeValue);
-        return;
-      }
-      if (node.nodeType !== Node.ELEMENT_NODE) return;
-      var tag = node.tagName;
-      if (tag === "BR") {
-        out += "\n";
-        return;
-      }
-      if (tag === "U") {
-        out += "<u>";
-        Array.prototype.forEach.call(node.childNodes, walk);
-        out += "</u>";
-        return;
-      }
-      if (tag === "DIV" || tag === "P") out += "\n";
-      Array.prototype.forEach.call(node.childNodes, walk);
-    }
-    Array.prototype.forEach.call(el.childNodes, walk);
-    return out.replace(/^\n/, "").replace(/\s+$/, "");
-  }
-
   // ---------- data helpers ----------
 
   function allPages(d) {
@@ -2027,12 +1992,21 @@
   // but still the only thing that reliably toggles it in a contenteditable
   // without reimplementing selection handling by hand; extractUnderlines
   // reads the <u> tags it leaves back out again on save.
+  //
+  // execCommand("underline") TOGGLES: holding the keys a moment too long
+  // fires a second, auto-repeat keydown for the same press, which flipped it
+  // straight back off — the underline that briefly appeared and vanished.
+  // e.repeat marks every keydown after the first for a key held down, so
+  // those are skipped; preventDefault still runs for them, or releasing the
+  // key late would leak a "u" into the text or trigger the browser's own
+  // Ctrl+U (view source).
   $("main").addEventListener("keydown", function (e) {
     if (e.key.toLowerCase() !== "u" || !(e.metaKey || e.ctrlKey)) return;
     var el = e.target;
     if (!el.hasAttribute || !el.hasAttribute("contenteditable")) return;
     if (!el.dataset.textFor && !el.dataset.bodyField) return;
     e.preventDefault();
+    if (e.repeat) return;
     document.execCommand("underline");
   });
 
