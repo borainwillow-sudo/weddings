@@ -1322,12 +1322,16 @@
     var failed = [];
     var memoryOnly = 0;
 
-    // New photos are laid out in columns below whatever is already there.
-    // One cursor per column, each new photo going to whichever column is
-    // currently shortest, so varying photo heights don't leave one column
-    // trailing far behind the others.
+    // New photos continue the same row-paired layout Arrange uses: filling
+    // out whatever row is already open, then starting a fresh one below
+    // everything once a row is full, so a photo always lands directly
+    // opposite the one next to it rather than wherever a column happens to
+    // be shortest.
+    var n = window.WB.layout.COLUMNS;
     var colGeo = window.WB.layout.columnGeometry();
-    var cursors = window.WB.layout.newColumnCursors(page.photos);
+    var state = window.WB.layout.resumeRowState(page.photos, n);
+    var col = state.col;
+    var rowY = state.y;
 
     setStatus("Processing 0/" + files.length + "…", "is-saving");
 
@@ -1336,7 +1340,6 @@
         var processed = await window.WB.processFile(files[i]);
         var durable = await window.WB.addPendingPhoto(processed);
         if (!durable) memoryOnly++;
-        var col = window.WB.layout.shortestColumn(cursors);
         var photo = {
           id: processed.id,
           display: processed.displayPath,
@@ -1345,12 +1348,16 @@
           height: processed.height,
           caption: "",
           x: Math.round(colGeo.xs[col] * 100) / 100,
-          y: Math.round(cursors[col] * 100) / 100,
+          y: Math.round(rowY * 100) / 100,
           w: colGeo.width,
         };
         page.photos.push(photo);
-        cursors[col] +=
-          window.WB.layout.heightPct(photo) + window.WB.layout.GAP;
+        col++;
+        if (col >= n) {
+          var rowHeight = window.WB.layout.rowHeightAt(page.photos, photo.y);
+          rowY = Math.round((photo.y + rowHeight + window.WB.layout.GAP) * 100) / 100;
+          col = 0;
+        }
         sessionAddedIds[processed.id] = true;
         done++;
         setStatus("Processing " + done + "/" + files.length + "…", "is-saving");

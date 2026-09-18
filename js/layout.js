@@ -441,38 +441,50 @@
     return { width: Math.round(width * 100) / 100, xs: xs };
   }
 
-  // One cursor per column, all starting below whatever is already there.
-  function newColumnCursors(items, n) {
-    var bottom = contentBottom(items);
-    var start = bottom > 0 ? bottom + GAP : TOP_MARGIN;
-    var cursors = [];
-    for (var i = 0; i < (n || COLUMNS); i++) cursors.push(start);
-    return cursors;
-  }
-
-  function shortestColumn(cursors) {
-    var best = 0;
-    for (var i = 1; i < cursors.length; i++) {
-      if (cursors[i] < cursors[best]) best = i;
-    }
-    return best;
-  }
-
-  // Reflows every photo into columns, in their current order. Photos vary in
-  // height, so each one goes to whichever column is currently shortest —
-  // that's what stops one column running far ahead of the others.
+  // Reflows every photo into columns, in their current order, n at a time per
+  // row. Everything in a row shares the same y — the pairs line up across the
+  // columns rather than each column packing independently — and the row's
+  // height is whichever item in it is tallest, so the next row starts clear
+  // of all of them.
   function arrangeInColumns(items, n) {
     n = n || COLUMNS;
     var geo = columnGeometry(n);
-    var cursors = [];
-    for (var i = 0; i < n; i++) cursors.push(TOP_MARGIN);
+    var y = TOP_MARGIN;
+    for (var i = 0; i < items.length; i += n) {
+      var row = items.slice(i, i + n);
+      var rowHeight = 0;
+      row.forEach(function (p, col) {
+        p.x = Math.round(geo.xs[col] * 100) / 100;
+        p.y = Math.round(y * 100) / 100;
+        p.w = geo.width;
+        rowHeight = Math.max(rowHeight, heightPct(p));
+      });
+      y += rowHeight + GAP;
+    }
+  }
+
+  // Where the next new item should land to continue the same row-paired
+  // layout: alongside the last item if its row isn't full yet, or a fresh row
+  // below everything if it is. Assumes items are already arranged this way,
+  // which holds as long as nothing but this function and arrangeInColumns
+  // ever place a photo.
+  function resumeRowState(items, n) {
+    n = n || COLUMNS;
+    if (!items.length) return { col: 0, y: TOP_MARGIN };
+    var col = items.length % n;
+    if (col === 0) return { col: 0, y: Math.round((contentBottom(items) + GAP) * 100) / 100 };
+    return { col: col, y: items[items.length - 1].y };
+  }
+
+  // The height of a row once every item that landed in it is known — used to
+  // work out where the row after it starts. rowY identifies the row: every
+  // item placed at that y by arrangeInColumns/resumeRowState belongs to it.
+  function rowHeightAt(items, rowY) {
+    var h = 0;
     items.forEach(function (p) {
-      var col = shortestColumn(cursors);
-      p.x = Math.round(geo.xs[col] * 100) / 100;
-      p.y = Math.round(cursors[col] * 100) / 100;
-      p.w = geo.width;
-      cursors[col] += heightPct(p) + GAP;
+      if (p.y === rowY) h = Math.max(h, heightPct(p));
     });
+    return h;
   }
 
   // Kept for callers that still want a single below-everything slot.
@@ -516,8 +528,8 @@
       visualOrder: visualOrder,
       arrangeInColumns: arrangeInColumns,
       columnGeometry: columnGeometry,
-      newColumnCursors: newColumnCursors,
-      shortestColumn: shortestColumn,
+      resumeRowState: resumeRowState,
+      rowHeightAt: rowHeightAt,
       clearSelection: clearSelection,
       COLUMNS: COLUMNS,
       GAP: GAP,
