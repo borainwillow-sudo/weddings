@@ -469,6 +469,19 @@
         "description": ""
       },
       "body": "My name is Willow Borain. I'm a film photographer from Cape Town, with a background in documentary photography. I have over ten years of experience working as a photographer. "
+    },
+    {
+      "id": "about-2",
+      "title": "about",
+      "type": "gallery",
+      "header": {
+        "title": "",
+        "meta": "",
+        "quote": "",
+        "description": ""
+      },
+      "photos": [],
+      "texts": []
     }
   ],
   "logo": {
