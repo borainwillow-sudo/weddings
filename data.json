@@ -465,26 +465,15 @@
           "w": 48
         },
         {
-          "id": "mu6rnxyp40yd8j",
-          "display": "photos/mu6rnxyp40yd8j.jpg",
-          "thumb": "photos/mu6rnxyp40yd8j-t.jpg",
-          "width": 1715,
-          "height": 2560,
+          "id": "mu6unp9gms4fd2",
+          "display": "photos/mu6unp9gms4fd2.jpg",
+          "thumb": "photos/mu6unp9gms4fd2-t.jpg",
+          "width": 508,
+          "height": 500,
           "caption": "",
           "x": 1,
           "y": 1362.31,
-          "w": 48
-        },
-        {
-          "id": "mu6rnybqykr4yw",
-          "display": "photos/mu6u8ab8grsu6r.jpg",
-          "thumb": "photos/mu6u8ab8grsu6r-t.jpg",
-          "width": 1730,
-          "height": 2560,
-          "caption": "",
-          "x": 51,
-          "y": 1362.31,
-          "w": 48
+          "w": 26.06021654351396
         }
       ],
       "texts": []
