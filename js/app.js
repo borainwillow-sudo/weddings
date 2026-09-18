@@ -462,6 +462,7 @@
     var tools = editing
       ? '<div class="photo-tools">' +
         '<button data-text-action="align">Align: ' + align + "</button>" +
+        '<button data-text-action="link">Link</button>' +
         '<button data-text-action="remove" class="danger">Remove</button>' +
         "</div>"
       : "";
@@ -471,6 +472,36 @@
     var grip = editing ? '<div class="text-grip" title="Drag to move"></div>' : "";
     var handle = editing ? '<div class="resize-handle"></div>' : "";
 
+    var linkFlag =
+      editing && item.link
+        ? '<span class="link-flag" title="' + esc(item.link) + '">link</span>'
+        : "";
+
+    var body =
+      '<div class="text-content" style="text-align:' +
+      align +
+      '"' +
+      (editing ? ' contenteditable="true" data-text-for="' + esc(item.id) + '"' : "") +
+      ">" +
+      esc(item.text || "") +
+      "</div>";
+
+    // Same rule as photos: the link is only live outside edit mode, since an
+    // anchor there would swallow the click that's supposed to place the caret.
+    if (item.link && !editing) {
+      var external = !isInternalLink(item.link);
+      body =
+        '<a class="text-content" style="text-align:' +
+        align +
+        '" href="' +
+        esc(item.link) +
+        '"' +
+        (external ? ' target="_blank" rel="noopener noreferrer"' : "") +
+        ">" +
+        esc(item.text || "") +
+        "</a>";
+    }
+
     return (
       '<div class="photo-block text-block" data-item-id="' +
       esc(item.id) +
@@ -478,14 +509,9 @@
       order +
       '">' +
       tools +
+      linkFlag +
       grip +
-      '<div class="text-content" style="text-align:' +
-      align +
-      '"' +
-      (editing ? ' contenteditable="true" data-text-for="' + esc(item.id) + '"' : "") +
-      ">" +
-      esc(item.text || "") +
-      "</div>" +
+      body +
       handle +
       "</div>"
     );
@@ -1449,7 +1475,77 @@
       item.align = ALIGNMENTS[(at + 1) % ALIGNMENTS.length];
       render();
       markDirty();
+      return;
     }
+
+    if (action === "link") {
+      openTextLink(item);
+    }
+  }
+
+  // Same idea as a photo's Link panel, but there's no hover label — the text
+  // itself is what's visible, so the whole block just becomes clickable.
+  function openTextLink(item) {
+    var pageOptions = allPages(data)
+      .filter(function (p) {
+        return p.type !== "group";
+      })
+      .map(function (p) {
+        return (
+          '<option value="#/' +
+          esc(p.id) +
+          '"' +
+          (item.link === "#/" + p.id ? " selected" : "") +
+          ">" +
+          esc(p.title) +
+          "</option>"
+        );
+      })
+      .join("");
+
+    var modal = openModal(
+      "<h3>Link this text</h3>" +
+        '<p class="hint">Makes the whole block clickable. Use <code>mailto:you@example.com</code> to open an email draft instead of a web page.</p>' +
+        "<label>Link to a page on this site</label>" +
+        '<select id="text-link-page"><option value="">— none —</option>' +
+        pageOptions +
+        "</select>" +
+        "<label>…or any web address, or a mailto: link</label>" +
+        '<input type="text" id="text-link" placeholder="https:// or mailto:" value="' +
+        esc(item.link || "") +
+        '" spellcheck="false">' +
+        '<div class="modal-actions">' +
+        '<button class="pill-btn" id="text-link-clear">Clear link</button>' +
+        '<button class="pill-btn" id="text-link-cancel">Cancel</button>' +
+        '<button class="pill-btn pill-solid" id="text-link-save">Save</button>' +
+        "</div>"
+    );
+
+    modal.querySelector("#text-link-page").addEventListener("change", function () {
+      if (this.value) modal.querySelector("#text-link").value = this.value;
+    });
+
+    modal.querySelector("#text-link-cancel").addEventListener("click", closeModal);
+
+    modal.querySelector("#text-link-clear").addEventListener("click", function () {
+      item.link = "";
+      closeModal();
+      render();
+      markDirty();
+    });
+
+    modal.querySelector("#text-link-save").addEventListener("click", function () {
+      var href = modal.querySelector("#text-link").value.trim();
+      // A bare domain typed without a scheme would otherwise resolve as a
+      // relative path on this site.
+      if (href && !/^(https?:\/\/|mailto:|#|\/)/i.test(href)) {
+        href = "https://" + href;
+      }
+      item.link = href;
+      closeModal();
+      render();
+      markDirty();
+    });
   }
 
   function addTextBlock() {

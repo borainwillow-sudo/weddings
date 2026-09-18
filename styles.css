@@ -424,10 +424,12 @@ img {
 /* A text block is a photo-block as far as positioning, selection, dragging and
    resizing go — it just holds words instead of an image. */
 .text-block .text-content {
+  display: block;
   font-weight: var(--f-body-weight);
   font-size: var(--f-body-size);
   line-height: 1.62;
   color: var(--ink);
+  text-decoration: none;
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }

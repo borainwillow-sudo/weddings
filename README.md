@@ -126,6 +126,10 @@ guides and takes arrow-key nudges exactly like a photo does.
 - **Resize** from the corner handle. Only the width is yours to set; the height
   follows the words.
 - **Align** cycles left → centre → right.
+- **Link** makes the whole block clickable — a web address, a page on this
+  site, or a `mailto:you@example.com` link that opens the visitor's email app
+  with your address already filled in. Good for a "Click here to email me"
+  line, or any short bit of text that should act as a button.
 - **Remove** deletes it.
 
 ## Photo links and hover labels
