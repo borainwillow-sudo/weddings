@@ -737,6 +737,10 @@
   }
 
   function renderPageInner() {
+    // About to throw away and rebuild everything below — anything still only
+    // sitting in a focused field's live DOM, not yet in `data`, would
+    // otherwise vanish (a resize mid-edit was the case that surfaced this).
+    syncFocusedField();
     var page = findPage(data, currentId);
     var main = $("main");
 
@@ -1963,12 +1967,18 @@
     if (photo) openLightbox(photo);
   });
 
-  $("main").addEventListener("focusout", function (e) {
-    var el = e.target;
-    if (!el.hasAttribute || !el.hasAttribute("contenteditable")) return;
+  // Pulls a contenteditable field's live DOM content into `data`. Used both
+  // when the field is actually left (focusout) and, critically, right before
+  // anything rebuilds the page while it's still focused — a resize mid-edit
+  // used to wipe out whatever hadn't been blurred yet, underline included,
+  // since a rebuild reads `data` and the DOM was the only place the edit
+  // existed until this ran.
+  function syncEditableField(el) {
+    if (!el || !el.hasAttribute || !el.hasAttribute("contenteditable")) return;
     var page = findPage(data, currentId);
-    if (!page) return;
+    if (!page) return false;
     var text = el.textContent.trim();
+    var changed = true;
 
     if (el.dataset.headerField) {
       page.header = page.header || window.WB.emptyHeader();
@@ -1983,6 +1993,7 @@
         return p.id === el.dataset.captionFor;
       });
       if (photo) photo.caption = text;
+      else changed = false;
     } else if (el.dataset.textFor) {
       var block = (page.texts || []).find(function (t) {
         return t.id === el.dataset.textFor;
@@ -1992,9 +2003,24 @@
         block.text = textResult.text;
         if (textResult.ranges.length) block.underline = textResult.ranges;
         else delete block.underline;
+      } else {
+        changed = false;
       }
+    } else {
+      changed = false;
     }
-    markDirty();
+    return changed;
+  }
+
+  // Whatever contenteditable field is focused right now, if any, saved into
+  // `data` before something is about to throw the DOM away and rebuild it.
+  function syncFocusedField() {
+    var el = document.activeElement;
+    if (el && syncEditableField(el)) markDirty();
+  }
+
+  $("main").addEventListener("focusout", function (e) {
+    if (syncEditableField(e.target)) markDirty();
   });
 
   // Ctrl/Cmd+U underlines the current selection. execCommand is deprecated
