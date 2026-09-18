@@ -494,6 +494,15 @@
           "y": 0,
           "w": 55.94,
           "link": "mailto:borainwillow@gmail.com"
+        },
+        {
+          "id": "mu71d6pg5v9zk9",
+          "type": "text",
+          "text": "",
+          "align": "left",
+          "x": 1,
+          "y": 58.08,
+          "w": 48
         }
       ]
     }
