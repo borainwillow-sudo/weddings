@@ -446,7 +446,19 @@
         "quote": "",
         "description": ""
       },
-      "photos": [],
+      "photos": [
+        {
+          "id": "mu6x8eampc4cfi",
+          "display": "photos/mu6x8eampc4cfi.jpg",
+          "thumb": "photos/mu6x8eampc4cfi-t.jpg",
+          "width": 2560,
+          "height": 2029,
+          "caption": "",
+          "x": 26,
+          "y": 0,
+          "w": 48
+        }
+      ],
       "texts": []
     },
     {
