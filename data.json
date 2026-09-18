@@ -471,7 +471,13 @@
           "x": 11.4,
           "y": 61.18,
           "w": 77.21,
-          "link": "mailto:borainwillow@gmail.com"
+          "link": "mailto:borainwillow@gmail.com",
+          "underline": [
+            [
+              45,
+              59
+            ]
+          ]
         },
         {
           "id": "mu71d6pg5v9zk9",
