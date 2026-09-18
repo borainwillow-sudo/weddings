@@ -45,7 +45,7 @@ body {
 }
 
 body {
-  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Times New Roman", Times, Georgia, serif;
   color: var(--ink);
   background: #fff;
   -webkit-font-smoothing: antialiased;
@@ -246,12 +246,66 @@ img {
   max-width: 62rem;
 }
 
+.header-tools {
+  margin-bottom: 0.6rem;
+}
+
+.header-tools button {
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+  cursor: pointer;
+  color: var(--ink);
+}
+
 .header-row {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 3.2rem;
   align-items: baseline;
   margin-bottom: 1rem;
+}
+
+/* Alignment set per page from the header's Align button. Centering or
+   right-aligning the description/body needs auto side margins too, since
+   text-align alone only moves the lines within a box that still hugs the
+   left edge at its max-width. */
+.page-header[data-align="center"] .header-row {
+  justify-content: center;
+  text-align: center;
+}
+
+.page-header[data-align="right"] .header-row {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.page-header[data-align="center"] .header-description {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.page-header[data-align="right"] .header-description {
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
+}
+
+.text-body[data-align="center"] {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.text-body[data-align="right"] {
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
 }
 
 .header-title {

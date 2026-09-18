@@ -90,7 +90,7 @@ after that it asks for it. In edit mode you can:
 - **Replace / Crop / Adjust / Link / Front / Remove** from the buttons above a
   photo on hover
 - Edit any text directly on the page (titles, captions, body copy)
-- **Style** — set Helvetica weight and size for each kind of text, and upload a custom cursor
+- **Style** — set the weight and size for each kind of text, and upload a custom cursor
 - **Pages** — rename, reorder, add and delete pages and sections
 
 ### Reordering pages
@@ -131,6 +131,14 @@ guides and takes arrow-key nudges exactly like a photo does.
   with your address already filled in. Good for a "Click here to email me"
   line, or any short bit of text that should act as a button.
 - **Remove** deletes it.
+
+## Aligning a page's title and text
+
+Every page has an **Align** button above its title (visible while editing,
+even on a page with no title yet). It cycles left → centre → right and
+affects that page's title, meta line, quote and description together, and on
+an About/Contact-style text page, the paragraph below it too. Each page
+keeps its own setting — the default for a new page is left.
 
 ## Photo links and hover labels
 

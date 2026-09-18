@@ -339,9 +339,15 @@
 
   // ---------- page rendering ----------
 
+  function pageAlign(page) {
+    var a = page.header && page.header.align;
+    return ALIGNMENTS.indexOf(a) === -1 ? "left" : a;
+  }
+
   function headerHTML(page) {
     var editing = window.WB.isEditing();
     var h = page.header || {};
+    var align = pageAlign(page);
     var attr = function (field) {
       return editing
         ? ' contenteditable="true" data-header-field="' + field + '"'
@@ -350,6 +356,12 @@
     var hasAny =
       h.title || h.meta || h.quote || h.description || editing;
     if (!hasAny) return "";
+
+    var tools = editing
+      ? '<div class="header-tools"><button data-header-action="align">Align: ' +
+        align +
+        "</button></div>"
+      : "";
 
     var row = "";
     if (h.title || editing)
@@ -369,7 +381,10 @@
         : "";
 
     return (
-      '<div class="page-header">' +
+      '<div class="page-header" data-align="' +
+      align +
+      '">' +
+      tools +
       (row ? '<div class="header-row">' + row + "</div>" : "") +
       desc +
       "</div>"
@@ -634,7 +649,9 @@
       var editing = window.WB.isEditing();
       main.innerHTML =
         headerHTML(page) +
-        '<div class="text-body"' +
+        '<div class="text-body" data-align="' +
+        pageAlign(page) +
+        '"' +
         (editing ? ' contenteditable="true" data-body-field="1"' : "") +
         ">" +
         esc(page.body || "") +
@@ -913,7 +930,7 @@
 
     var modal = openModal(
       "<h3>Style</h3>" +
-        '<p class="hint">Everything is Helvetica — this sets the weight and size for each kind of text. Changes preview instantly.</p>' +
+        '<p class="hint">Everything is Times New Roman — this sets the weight and size for each kind of text. Changes preview instantly.</p>' +
         rows +
         '<div class="group-heading">Heading</div>' +
         '<p class="hint">Replace the name at the top with your own wordmark. Use a PNG with a transparent background so it sits on the white page. The name is still used for the browser tab and for screen readers.</p>' +
@@ -1488,6 +1505,20 @@
     });
   }
 
+  // Cycles the page header's alignment (and, on a text-type page, the body
+  // text with it — they're one block of prose as far as a reader is
+  // concerned, even though the header and body are separate fields).
+  function handleHeaderAction(action) {
+    if (action !== "align") return;
+    var page = findPage(data, currentId);
+    if (!page) return;
+    page.header = page.header || window.WB.emptyHeader();
+    var at = ALIGNMENTS.indexOf(pageAlign(page));
+    page.header.align = ALIGNMENTS[(at + 1) % ALIGNMENTS.length];
+    render();
+    markDirty();
+  }
+
   function handleTextAction(action, textId) {
     var page = findPage(data, currentId);
     if (!page || !page.texts) return;
@@ -1797,6 +1828,12 @@
         textBtn.dataset.textAction,
         textBtn.closest("[data-item-id]").dataset.itemId
       );
+      return;
+    }
+    var headerBtn = e.target.closest("[data-header-action]");
+    if (headerBtn) {
+      e.stopPropagation();
+      handleHeaderAction(headerBtn.dataset.headerAction);
       return;
     }
     if (window.WB.isEditing()) return;
