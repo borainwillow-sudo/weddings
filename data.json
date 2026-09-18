@@ -443,28 +443,6 @@
           "w": 48
         },
         {
-          "id": "mu6rmzeen4awpz",
-          "display": "photos/mu6u9drom5868h.jpg",
-          "thumb": "photos/mu6u9drom5868h-t.jpg",
-          "width": 1715,
-          "height": 2560,
-          "caption": "",
-          "x": 1,
-          "y": 1286.66,
-          "w": 48
-        },
-        {
-          "id": "mu6rmzsgblgvh2",
-          "display": "photos/mu6une00vr2883.jpg",
-          "thumb": "photos/mu6une00vr2883-t.jpg",
-          "width": 1715,
-          "height": 2560,
-          "caption": "",
-          "x": 51,
-          "y": 1286.66,
-          "w": 48
-        },
-        {
           "id": "mu6unp9gms4fd2",
           "display": "photos/mu6unp9gms4fd2.jpg",
           "thumb": "photos/mu6unp9gms4fd2-t.jpg",
@@ -472,7 +450,7 @@
           "height": 500,
           "caption": "",
           "x": 39.62,
-          "y": 1372.06,
+          "y": 1300.74,
           "w": 20.77,
           "title": "instagram",
           "link": ""
