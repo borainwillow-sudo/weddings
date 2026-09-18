@@ -32,6 +32,99 @@
     });
   }
 
+  // The only formatting a text block or the body paragraph can carry is
+  // underline (Ctrl/Cmd+U). Rather than store HTML, the plain text is kept
+  // exactly as it always was and the underlined stretches are recorded
+  // separately as character-offset ranges into it — so old content with no
+  // ranges renders identically to before, and nothing here ever has to trust
+  // a stored string as HTML. Ranges are recomputed from the live DOM on every
+  // edit rather than patched, so they can't drift out of sync with the text.
+  function extractUnderlines(el) {
+    var text = "";
+    var ranges = [];
+    var openStarts = [];
+    function walk(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        text += node.nodeValue;
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE) return;
+      var tag = node.tagName;
+      if (tag === "BR") {
+        text += "\n";
+        return;
+      }
+      // Chrome/Safari wrap every line after the first in its own <div> (the
+      // first stays bare); either way it's a new line.
+      if (tag === "DIV" || tag === "P") text += "\n";
+      var isU = tag === "U";
+      if (isU) openStarts.push(text.length);
+      Array.prototype.forEach.call(node.childNodes, walk);
+      if (isU) ranges.push([openStarts.pop(), text.length]);
+    }
+    Array.prototype.forEach.call(el.childNodes, walk);
+    var trimmed = text.replace(/\s+$/, "");
+    ranges = ranges
+      .map(function (r) {
+        return [Math.min(r[0], trimmed.length), Math.min(r[1], trimmed.length)];
+      })
+      .filter(function (r) {
+        return r[1] > r[0];
+      })
+      .sort(function (a, b) {
+        return a[0] - b[0];
+      });
+    return { text: trimmed, ranges: ranges };
+  }
+
+  function renderWithUnderlines(text, ranges) {
+    text = text || "";
+    var out = "";
+    var pos = 0;
+    (ranges || []).forEach(function (r) {
+      var s = Math.max(pos, Math.min(r[0], text.length));
+      var e = Math.max(s, Math.min(r[1], text.length));
+      out += esc(text.slice(pos, s)) + "<u>" + esc(text.slice(s, e)) + "</u>";
+      pos = e;
+    });
+    return out + esc(text.slice(pos));
+  }
+
+  // The only formatting a text block or the body paragraph can carry is
+  // underline, applied with Ctrl/Cmd+U. This walks the field's DOM after an
+  // edit and rebuilds it as a string that's already fully escaped except for
+  // the <u> tags it deliberately keeps — safe to store as-is and safe to drop
+  // straight into innerHTML later with no further parsing at render time.
+  // Chrome/Safari leave the first line bare in the contenteditable root and
+  // wrap every line after it in its own <div>; a Shift+Enter soft break is a
+  // <br> either way. Anything else unexpected (a paste artifact) just loses
+  // its wrapping tag rather than losing the text inside it.
+  function extractFormatted(el) {
+    var out = "";
+    function walk(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        out += esc(node.nodeValue);
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE) return;
+      var tag = node.tagName;
+      if (tag === "BR") {
+        out += "\n";
+        return;
+      }
+      if (tag === "U") {
+        out += "<u>";
+        Array.prototype.forEach.call(node.childNodes, walk);
+        out += "</u>";
+        return;
+      }
+      if (tag === "DIV" || tag === "P") out += "\n";
+      Array.prototype.forEach.call(node.childNodes, walk);
+    }
+    Array.prototype.forEach.call(el.childNodes, walk);
+    return out.replace(/^\n/, "").replace(/\s+$/, "");
+  }
+
   // ---------- data helpers ----------
 
   function allPages(d) {
@@ -505,7 +598,7 @@
       '"' +
       (editing ? ' contenteditable="true" data-text-for="' + esc(item.id) + '"' : "") +
       ">" +
-      esc(item.text || "") +
+      renderWithUnderlines(item.text, item.underline) +
       "</div>";
 
     // Same rule as photos: the link is only live outside edit mode, since an
@@ -520,7 +613,7 @@
         '"' +
         (external ? ' target="_blank" rel="noopener noreferrer"' : "") +
         ">" +
-        esc(item.text || "") +
+        renderWithUnderlines(item.text, item.underline) +
         "</a>";
     }
 
@@ -664,7 +757,7 @@
           '"' +
           (editing ? ' contenteditable="true" data-body-field="1"' : "") +
           ">" +
-          esc(page.body || "") +
+          renderWithUnderlines(page.body, page.bodyUnderline) +
           "</div>"
         : "";
 
@@ -1881,7 +1974,10 @@
       page.header = page.header || window.WB.emptyHeader();
       page.header[el.dataset.headerField] = text;
     } else if (el.dataset.bodyField) {
-      page.body = el.textContent;
+      var bodyResult = extractUnderlines(el);
+      page.body = bodyResult.text;
+      if (bodyResult.ranges.length) page.bodyUnderline = bodyResult.ranges;
+      else delete page.bodyUnderline;
     } else if (el.dataset.captionFor) {
       var photo = (page.photos || []).find(function (p) {
         return p.id === el.dataset.captionFor;
@@ -1891,11 +1987,27 @@
       var block = (page.texts || []).find(function (t) {
         return t.id === el.dataset.textFor;
       });
-      // innerText, not textContent: it reports the line breaks the browser
-      // inserted as <div>/<br> while typing, so paragraphs survive a reload.
-      if (block) block.text = el.innerText.replace(/\s+$/, "");
+      if (block) {
+        var textResult = extractUnderlines(el);
+        block.text = textResult.text;
+        if (textResult.ranges.length) block.underline = textResult.ranges;
+        else delete block.underline;
+      }
     }
     markDirty();
+  });
+
+  // Ctrl/Cmd+U underlines the current selection. execCommand is deprecated
+  // but still the only thing that reliably toggles it in a contenteditable
+  // without reimplementing selection handling by hand; extractUnderlines
+  // reads the <u> tags it leaves back out again on save.
+  $("main").addEventListener("keydown", function (e) {
+    if (e.key.toLowerCase() !== "u" || !(e.metaKey || e.ctrlKey)) return;
+    var el = e.target;
+    if (!el.hasAttribute || !el.hasAttribute("contenteditable")) return;
+    if (!el.dataset.textFor && !el.dataset.bodyField) return;
+    e.preventDefault();
+    document.execCommand("underline");
   });
 
   $("nav-content").addEventListener("click", function (e) {

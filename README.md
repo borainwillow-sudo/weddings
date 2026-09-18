@@ -125,6 +125,8 @@ this canvas, including an About/Contact-style page — **Add photos** and
 
 - **Drag it by the dotted grip bar** along its top edge.
 - **Type straight into it.** Enter starts a new paragraph, and line breaks are kept.
+  Select a few words and press **Ctrl/Cmd+U** to underline them — the same
+  shortcut works in an About/Contact page's fixed paragraph too.
 - **Resize** from the corner handle. Only the width is yours to set; the height
   follows the words.
 - **Align** cycles left → centre → right.
