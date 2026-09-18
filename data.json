@@ -482,6 +482,19 @@
           "y": 80.88,
           "w": 48
         }
+      ],
+      "photos": [
+        {
+          "id": "mu71yvd1914iys",
+          "display": "photos/mu71yvd1914iys.jpg",
+          "thumb": "photos/mu71yvd1914iys-t.jpg",
+          "width": 2560,
+          "height": 1731,
+          "caption": "",
+          "x": 1,
+          "y": 4,
+          "w": 48
+        }
       ]
     }
   ],
