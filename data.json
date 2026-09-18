@@ -459,7 +459,17 @@
           "w": 48
         }
       ],
-      "texts": []
+      "texts": [
+        {
+          "id": "mu6x8l1gka9ul5",
+          "type": "text",
+          "text": "",
+          "align": "left",
+          "x": 26,
+          "y": 41.59,
+          "w": 48
+        }
+      ]
     },
     {
       "id": "about",
