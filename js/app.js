@@ -1796,7 +1796,7 @@
       !confirm(
         "Rearrange everything on this page (" +
           items.length +
-          " items) into three columns? This replaces their current positions."
+          " items) into two columns? This replaces their current positions."
       )
     ) {
       return;

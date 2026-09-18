@@ -64,13 +64,13 @@ Click **Edit site** (bottom right). The first time you'll set a password;
 after that it asks for it. In edit mode you can:
 
 - **Add photos** — select many at once; each is resized and thumbnailed. New
-  photos are laid out in three columns at the end of the page, each going to
+  photos are laid out in two columns at the end of the page, each going to
   whichever column is currently shortest so tall photos don't leave gaps.
   Nothing already on the page moves.
-- **Add text** — drops a paragraph on the page, two columns wide, below
+- **Add text** — drops a paragraph on the page, one column wide, below
   everything else, with the caret already in it.
 - **Arrange** — reflows everything on the page, photos and text together, into
-  three columns. Handy for starting from a tidy grid; it replaces the current
+  two columns. Handy for starting from a tidy grid; it replaces the current
   positions, so it asks first. It flows things in reading order — down the
   page, then across — rather than the order they were added.
 

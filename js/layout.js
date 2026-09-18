@@ -428,7 +428,7 @@
 
   var TOP_MARGIN = 4;
   var GAP = 4;
-  var COLUMNS = 3;
+  var COLUMNS = 2;
   var COL_GAP = 2;
   var SIDE = 1;
 
@@ -485,15 +485,15 @@
     };
   }
 
-  // A new paragraph goes below everything, two columns wide. One column is a
-  // sensible width for a photo but a cramped measure for prose.
+  // A new paragraph goes below everything, one column wide — a full-width
+  // block would run too wide a line for comfortable reading.
   function defaultTextPlacement(items) {
     var geo = columnGeometry();
     var bottom = contentBottom(items);
     return {
       x: geo.xs[0],
       y: Math.round((bottom > 0 ? bottom + GAP : TOP_MARGIN) * 100) / 100,
-      w: Math.round((geo.width * 2 + COL_GAP) * 100) / 100,
+      w: geo.width,
     };
   }
 
