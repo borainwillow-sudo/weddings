@@ -468,8 +468,8 @@
           "type": "text",
           "text": "If you'd like me to photograph your wedding, email me here. \n\nPlease include:\n\nYour names, Your wedding date, The venue or town, A rough guest count and whether you have a wedding planner.\n\nTell me a little about the day you're planning, feel free to include a link to a mood-board if you've made one. If you'd like to share your Instagram handle, I'm always glad to put faces to names.\n\nI'll reply with my packages and we can set up a video call to talk it through further.",
           "align": "center",
-          "x": 5.94,
-          "y": 61.47,
+          "x": 4.05,
+          "y": 61.04,
           "w": 91.91,
           "link": "mailto:borainwillow@gmail.com"
         },
@@ -478,9 +478,9 @@
           "type": "text",
           "text": "email : borainwillow@gmail.com\n\ninstagram : @weddings0nfi1m",
           "align": "center",
-          "x": 26.01,
-          "y": 144.95,
-          "w": 48
+          "x": 19.605,
+          "y": 158.87697760193134,
+          "w": 60.79
         }
       ],
       "photos": [
