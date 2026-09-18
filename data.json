@@ -10,7 +10,7 @@
   },
   "typography": {
     "siteName": {
-      "weight": 400,
+      "weight": 700,
       "size": 30
     },
     "nav": {
@@ -18,11 +18,11 @@
       "size": 13
     },
     "pageTitle": {
-      "weight": 500,
+      "weight": 700,
       "size": 14
     },
     "meta": {
-      "weight": 400,
+      "weight": 700,
       "size": 14
     },
     "body": {
