@@ -1,0 +1,1120 @@
+:root {
+  /* Side inset on a phone: the wider one for text, a narrow one for the
+     photos, which want as much of the screen as they can get. */
+  --main-pad-x: 18px;
+  --canvas-pad-x: 8px;
+  --ink: #111;
+  --muted: #6f6f6f;
+  --faint: #b9b9b9;
+  --line: #e6e6e6;
+  --accent: #1a6fe8;
+  --danger: #c33;
+  --sidebar-w: 260px;
+  --gutter: 44px;
+
+  --f-siteName-weight: 400;
+  --f-siteName-size: 30px;
+  --f-nav-weight: 400;
+  --f-nav-size: 13px;
+  --f-pageTitle-weight: 500;
+  --f-pageTitle-size: 14px;
+  --f-meta-weight: 400;
+  --f-meta-size: 14px;
+  --f-body-weight: 400;
+  --f-body-size: 15px;
+  --f-caption-weight: 400;
+  --f-caption-size: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* The browser's default `[hidden] { display: none }` is a plain element rule,
+   so any class that sets `display` beats it and the element stays on screen
+   while the code believes it is hidden. That is how the problem notice above
+   the edit bar ended up permanently visible and empty. */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom cursor, applied only outside edit mode so the drag/resize cursors
+   keep doing their job. Anchors and buttons need it restated or their own
+   cursor:pointer wins. */
+body:not(.is-editing),
+body:not(.is-editing) a,
+body:not(.is-editing) button:not(.pill-btn),
+body:not(.is-editing) .photo-block {
+  cursor: var(--site-cursor, auto);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 8px;
+  top: 8px;
+  background: #fff;
+  padding: 8px 12px;
+  z-index: 200;
+  border: 1px solid var(--ink);
+}
+
+/* ---------- sidebar (desktop) ---------- */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-w);
+  padding: var(--gutter) 28px;
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  background: #fff;
+  z-index: 50;
+}
+
+.site-name {
+  display: block;
+  font-weight: var(--f-siteName-weight);
+  font-size: var(--f-siteName-size);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-bottom: 2.6rem;
+  max-width: 6em;
+}
+
+/* Wordmark in place of the text heading. Width is a share of the sidebar
+   column so it scales with the layout rather than being pinned to pixels. */
+.site-logo {
+  display: block;
+  width: var(--logo-width, 100%);
+  height: auto;
+}
+
+.site-name:has(.site-logo) {
+  max-width: none;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.nav-item {
+  display: block;
+  padding: 0.42rem 0;
+  font-weight: var(--f-nav-weight);
+  font-size: var(--f-nav-size);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-item.is-active {
+  color: var(--accent);
+}
+
+.nav-group-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.nav-children {
+  display: none;
+  flex-direction: column;
+  border-left: 1px solid var(--line);
+  margin: 0.15rem 0 0.5rem 2px;
+  padding-left: 14px;
+}
+
+.nav-children.open {
+  display: flex;
+}
+
+.nav-child {
+  padding: 0.36rem 0;
+  font-size: calc(var(--f-nav-size) - 1px);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.nav-child.is-active {
+  color: var(--accent);
+}
+
+/* ---------- mobile bar ---------- */
+
+.mobile-bar {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 18px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-name {
+  font-weight: var(--f-siteName-weight);
+  font-size: calc(var(--f-siteName-size) * 0.62);
+  line-height: 1.08;
+  max-width: 6em;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  width: 34px;
+  height: 30px;
+  position: relative;
+}
+
+.burger,
+.burger::before,
+.burger::after {
+  position: absolute;
+  left: 6px;
+  width: 22px;
+  height: 1.6px;
+  background: var(--ink);
+  content: "";
+}
+.burger {
+  top: 14px;
+}
+.burger::before {
+  top: -6px;
+}
+.burger::after {
+  top: 6px;
+}
+
+.nav-backdrop {
+  display: none;
+}
+
+/* ---------- main ---------- */
+
+.main {
+  margin-left: var(--sidebar-w);
+  padding: var(--gutter) var(--gutter) 6rem;
+  min-height: 100vh;
+}
+
+.page-header {
+  margin-bottom: 2.6rem;
+  max-width: 62rem;
+}
+
+.header-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 3.2rem;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.header-title {
+  font-weight: var(--f-pageTitle-weight);
+  font-size: var(--f-pageTitle-size);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.header-meta,
+.header-quote {
+  font-weight: var(--f-meta-weight);
+  font-size: var(--f-meta-size);
+  color: var(--ink);
+}
+
+.header-quote {
+  font-style: italic;
+}
+
+.header-description,
+.text-body {
+  font-weight: var(--f-body-weight);
+  font-size: var(--f-body-size);
+  line-height: 1.62;
+  color: var(--muted);
+  max-width: 58rem;
+  white-space: pre-wrap;
+}
+
+.text-body {
+  color: var(--ink);
+}
+
+/* ---------- free-form photo canvas ---------- */
+
+.canvas {
+  position: relative;
+  width: 100%;
+}
+
+/* Blank space below the last photo. Set from Style → End of page, as a
+   proportion of screen height so it holds up across screen sizes. No
+   min-height: a setting of 0 should mean none. */
+.page-footer {
+  height: var(--footer-space, 45vh);
+  background: #fff;
+}
+
+.photo-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.photo-media {
+  display: block;
+  position: relative;
+}
+
+.photo-block img {
+  width: 100%;
+  height: auto;
+  background: #f4f4f4;
+}
+
+/* A quarter-turned photo. A transform doesn't change the layout box, so the
+   media element declares the turned box's shape itself with an aspect-ratio
+   written inline, and the image is sized against that before being turned into
+   it. --ar is the image's own width as a fraction of that box's width. */
+.photo-media.is-rotated {
+  overflow: hidden;
+}
+
+.photo-media.is-rotated img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--ar) * 100%);
+  height: auto;
+  transform: translate(-50%, -50%) rotate(var(--rot));
+}
+
+/* Hover label. Gated on real hover support so it can't get stuck visible
+   after a tap on a touchscreen. */
+.photo-label {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .photo-label {
+    /* Purely decorative: it must never intercept a click meant for the photo
+       or the link wrapping it, nor block dragging in edit mode. */
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--ink);
+    font-weight: 500;
+    font-size: var(--f-pageTitle-size);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  .photo-media:hover .photo-label {
+    opacity: 1;
+  }
+
+  /* Don't let it flash over a photo being moved. */
+  .photo-block.dragging .photo-label {
+    opacity: 0;
+  }
+}
+
+.link-flag {
+  position: absolute;
+  top: -13px;
+  right: 0;
+  z-index: 12;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+}
+
+.cursor-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.cursor-preview {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  background: repeating-conic-gradient(#f0f0f0 0% 25%, #fff 0% 50%) 50% / 12px 12px;
+}
+
+/* Chequerboard behind both previews so transparency is visible. */
+.logo-preview {
+  max-width: 190px;
+  max-height: 46px;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  padding: 4px;
+  background: repeating-conic-gradient(#f0f0f0 0% 25%, #fff 0% 50%) 50% / 12px 12px;
+}
+
+.photo-caption {
+  font-weight: var(--f-caption-weight);
+  font-size: var(--f-caption-size);
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+/* ---------- text blocks on the canvas ---------- */
+
+/* A text block is a photo-block as far as positioning, selection, dragging and
+   resizing go — it just holds words instead of an image. */
+.text-block .text-content {
+  font-weight: var(--f-body-weight);
+  font-size: var(--f-body-size);
+  line-height: 1.62;
+  color: var(--ink);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* Selecting and scrolling text has to keep working even though the block it
+   sits in is set up for dragging. */
+body.is-editing .text-block .text-content {
+  cursor: text;
+  touch-action: auto;
+  outline: none;
+  min-height: 1.62em;
+}
+
+body.is-editing .text-block .text-content:empty::before {
+  content: "Type here";
+  color: var(--faint);
+}
+
+/* The drag surface. The text itself can't be one, or clicking to type would
+   move the block instead. */
+.text-grip {
+  display: none;
+  height: 14px;
+  margin-bottom: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--line) 0 3px,
+    transparent 3px 6px
+  );
+  background-size: auto 2px;
+  background-position: 0 50%;
+  background-repeat: repeat-x;
+  cursor: grab;
+}
+
+body.is-editing .text-block .text-grip {
+  display: block;
+}
+
+body.is-editing .text-block.dragging .text-grip {
+  cursor: grabbing;
+}
+
+/* Adjust panel */
+
+.adjust-preview {
+  width: 210px;
+  margin: 4px auto 14px;
+}
+
+.adjust-preview img {
+  width: 100%;
+  height: auto;
+  background: #f4f4f4;
+}
+
+.adjust-rotate {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.snap-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.snap-guide {
+  position: absolute;
+  background: var(--accent);
+  opacity: 0.5;
+}
+
+.snap-guide-v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.snap-guide-h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+/* editing affordances on photos */
+
+body.is-editing .photo-block {
+  cursor: grab;
+  touch-action: none;
+}
+
+body.is-editing .photo-block:hover {
+  outline: 1px solid var(--faint);
+  outline-offset: 3px;
+}
+
+/* The photo the arrow keys will move. */
+body.is-editing .photo-block.selected {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+body.is-editing .photo-block.dragging {
+  cursor: grabbing;
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+  opacity: 0.92;
+}
+
+.resize-handle {
+  display: none;
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  width: 13px;
+  height: 13px;
+  background: #fff;
+  border: 1px solid var(--accent);
+  cursor: nwse-resize;
+  z-index: 10;
+}
+
+body.is-editing .photo-block .resize-handle {
+  display: block;
+}
+
+.photo-tools {
+  display: none;
+  position: absolute;
+  top: -13px;
+  left: 0;
+  gap: 4px;
+  z-index: 12;
+}
+
+body.is-editing .photo-block:hover .photo-tools {
+  display: flex;
+}
+
+.photo-tools button {
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.photo-tools button.danger {
+  color: var(--danger);
+}
+
+.empty-note {
+  color: var(--faint);
+  font-size: var(--f-body-size);
+  padding: 3rem 0;
+}
+
+/* ---------- buttons / edit bar ---------- */
+
+.pill-btn {
+  font-family: inherit;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  padding: 0.5rem 1.05rem;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pill-btn.pill-solid {
+  background: var(--ink);
+  color: #fff;
+}
+
+.pill-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.edit-site-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 55;
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.edit-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #111;
+  color: #fff;
+  z-index: 70;
+  padding: 10px 16px;
+}
+
+/* Sticky problem line: survives the save-status text updating underneath it,
+   and stays until dismissed. */
+.edit-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #7a1f1f;
+  color: #fff;
+  padding: 9px 12px;
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.edit-notice button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  flex: none;
+}
+
+.edit-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.edit-bar .pill-btn {
+  border-color: rgba(255, 255, 255, 0.55);
+  background: transparent;
+  color: #fff;
+}
+
+.edit-bar .pill-btn.pill-solid {
+  background: #fff;
+  color: #111;
+  border-color: #fff;
+}
+
+.edit-bar-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.save-status {
+  font-size: 12px;
+  color: #bdbdbd;
+  letter-spacing: 0.03em;
+}
+
+.save-status.is-saving {
+  color: #ffd479;
+}
+.save-status.is-saved {
+  color: #8fe08f;
+}
+.save-status.is-error {
+  color: #ff9c9c;
+}
+
+body.is-editing {
+  padding-bottom: 92px;
+}
+
+/* ---------- modals ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 120;
+  padding: 20px;
+}
+
+.modal {
+  background: #fff;
+  width: min(560px, 100%);
+  max-height: 86vh;
+  overflow-y: auto;
+  padding: 26px;
+}
+
+.modal h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.modal p.hint {
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.modal label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.modal input[type="text"],
+.modal input[type="password"],
+.modal textarea,
+.modal select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+.modal textarea {
+  min-height: 130px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.modal-error {
+  color: var(--danger);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.modal-ok {
+  color: #2a7a2a;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+/* typography panel */
+
+.typo-row {
+  display: grid;
+  grid-template-columns: 1fr 108px 96px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.typo-row span {
+  font-size: 13px;
+}
+
+.typo-row select,
+.typo-row input {
+  margin-bottom: 0;
+}
+
+/* pages panel */
+
+.page-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.page-row input {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.page-row.child {
+  padding-left: 20px;
+}
+
+.page-row .move-btn {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 5px 7px;
+  flex: none;
+}
+
+.page-row .move-btn:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.page-row .del-btn {
+  background: none;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 15px;
+  padding: 2px 6px;
+}
+
+.group-heading {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 16px 0 4px;
+}
+
+/* cropper */
+
+.crop-modal {
+  width: auto;
+}
+
+.crop-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.crop-preset {
+  padding: 0.32rem 0.7rem;
+  font-size: 11px;
+}
+
+.crop-preset[aria-pressed="true"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.crop-stage {
+  position: relative;
+  margin: 0 auto;
+  touch-action: none;
+  user-select: none;
+  background: #f4f4f4;
+}
+
+.crop-img {
+  display: block;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.crop-rect {
+  position: absolute;
+  cursor: move;
+  outline: 1px solid #fff;
+  /* Dims everything outside the box without extra elements. */
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+.crop-thirds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+      to right,
+      transparent calc(33.333% - 0.5px),
+      rgba(255, 255, 255, 0.45) calc(33.333% - 0.5px) calc(33.333% + 0.5px),
+      transparent calc(33.333% + 0.5px) calc(66.666% - 0.5px),
+      rgba(255, 255, 255, 0.45) calc(66.666% - 0.5px) calc(66.666% + 0.5px),
+      transparent calc(66.666% + 0.5px)
+    ),
+    linear-gradient(
+      to bottom,
+      transparent calc(33.333% - 0.5px),
+      rgba(255, 255, 255, 0.45) calc(33.333% - 0.5px) calc(33.333% + 0.5px),
+      transparent calc(33.333% + 0.5px) calc(66.666% - 0.5px),
+      rgba(255, 255, 255, 0.45) calc(66.666% - 0.5px) calc(66.666% + 0.5px),
+      transparent calc(66.666% + 0.5px)
+    );
+}
+
+.crop-handle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.crop-nw { left: -7px; top: -7px; cursor: nwse-resize; }
+.crop-n  { left: calc(50% - 7px); top: -7px; cursor: ns-resize; }
+.crop-ne { right: -7px; top: -7px; cursor: nesw-resize; }
+.crop-e  { right: -7px; top: calc(50% - 7px); cursor: ew-resize; }
+.crop-se { right: -7px; bottom: -7px; cursor: nwse-resize; }
+.crop-s  { left: calc(50% - 7px); bottom: -7px; cursor: ns-resize; }
+.crop-sw { left: -7px; bottom: -7px; cursor: nesw-resize; }
+.crop-w  { left: -7px; top: calc(50% - 7px); cursor: ew-resize; }
+
+.crop-readout {
+  text-align: center;
+  margin: 12px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* lightbox */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.97);
+  z-index: 130;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 86vh;
+  object-fit: contain;
+}
+
+/* Rotating doesn't change the layout box, so a quarter-turned photo has to be
+   constrained by the opposite axis or the turned result overflows the window. */
+.lightbox img.quarter {
+  max-width: 86vh;
+  max-height: 90vw;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 820px) {
+  .mobile-bar {
+    display: flex;
+  }
+
+  /* The drawer starts below the bar, not behind it. The bar's height depends
+     on the size of the name and whether it wraps, so it is measured and
+     published as --mobile-bar-h rather than guessed at: a fixed guess left the
+     first few menu items hidden underneath an opaque bar once the name grew
+     enough to wrap onto two lines. */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.24s ease;
+    width: min(300px, 84vw);
+    border-right: 1px solid var(--line);
+    top: var(--mobile-bar-h, 64px);
+    padding-top: 22px;
+    overscroll-behavior: contain;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 6px 0 26px rgba(0, 0, 0, 0.09);
+  }
+
+  .sidebar .site-name {
+    display: none;
+  }
+
+  /* The mobile bar is a fixed-height strip, so the wordmark is capped by
+     height there rather than taking a share of a column. */
+  .mobile-bar .site-logo {
+    width: auto;
+    max-height: 30px;
+    max-width: 62vw;
+  }
+
+  .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.16);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 45;
+  }
+
+  .nav-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 22px var(--main-pad-x) 6rem;
+  }
+
+  /* Two ways to show a free-form page on a phone, chosen in Style → On phones.
+
+     Shrunk (the default): the canvas is laid out at a desktop width by the
+     layout engine and scaled down as one piece, so the arrangement survives
+     intact. The frame is given the shrunk height, because a transform leaves
+     the layout box its original size and the page would otherwise scroll a
+     screen's worth of nothing. */
+  /* The photos get a much narrower inset than the text does — the layout
+     engine has already reserved room for any that hang past the canvas edge,
+     so a wide margin here would only make them smaller for no reason. The
+     page's own inset is pulled back to --canvas-pad-x on the canvas alone; the
+     heading and captions keep the wider one. */
+  body.phone-desktop-layout .canvas-frame {
+    margin-left: calc(var(--canvas-pad-x) - var(--main-pad-x));
+    margin-right: calc(var(--canvas-pad-x) - var(--main-pad-x));
+    overflow: hidden;
+  }
+
+  body.phone-desktop-layout .canvas {
+    transform-origin: 0 0;
+  }
+
+  /* Stacked: the arrangement is dropped and photos run one after another. */
+  body:not(.phone-desktop-layout) .canvas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px 16px;
+    padding-bottom: 0 !important;
+  }
+
+  body:not(.phone-desktop-layout) .photo-block {
+    position: static !important;
+    width: auto !important;
+  }
+
+  /* A paragraph squeezed into half a phone screen is unreadable, so text
+     blocks break out of the grid and take the full width. */
+  body:not(.phone-desktop-layout) .text-block {
+    grid-column: 1 / -1;
+  }
+
+  .text-grip {
+    display: none !important;
+  }
+
+  .snap-overlay {
+    display: none;
+  }
+
+  .resize-handle {
+    display: none !important;
+  }
+
+  body.is-editing .photo-block {
+    cursor: default;
+  }
+
+  .edit-bar-inner {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  body:not(.phone-desktop-layout) .canvas {
+    grid-template-columns: 1fr;
+  }
+}
