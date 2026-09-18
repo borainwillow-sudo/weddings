@@ -1,0 +1,59 @@
+{
+  "siteName": "Wedding Photography",
+  "cursor": { "image": null, "size": 32, "hotspot": "topleft" },
+  "footer": { "space": 45 },
+  "typography": {
+    "siteName": { "weight": 400, "size": 30 },
+    "nav": { "weight": 400, "size": 13 },
+    "pageTitle": { "weight": 500, "size": 14 },
+    "meta": { "weight": 400, "size": 14 },
+    "body": { "weight": 400, "size": 15 },
+    "caption": { "weight": 400, "size": 12 }
+  },
+  "pages": [
+    {
+      "id": "home",
+      "title": "Home",
+      "type": "gallery",
+      "header": { "title": "", "meta": "", "quote": "", "description": "" },
+      "photos": []
+    },
+    {
+      "id": "weddings",
+      "title": "Weddings",
+      "type": "group",
+      "children": [
+        {
+          "id": "ceremony",
+          "title": "Ceremony",
+          "type": "gallery",
+          "header": { "title": "", "meta": "", "quote": "", "description": "" },
+          "photos": [],
+          "texts": []
+        },
+        {
+          "id": "reception",
+          "title": "Reception",
+          "type": "gallery",
+          "header": { "title": "", "meta": "", "quote": "", "description": "" },
+          "photos": [],
+          "texts": []
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "title": "About",
+      "type": "text",
+      "header": { "title": "About", "meta": "", "quote": "", "description": "" },
+      "body": "Write your about text here."
+    },
+    {
+      "id": "contact",
+      "title": "Contact",
+      "type": "text",
+      "header": { "title": "Contact", "meta": "", "quote": "", "description": "" },
+      "body": "Add your contact details here."
+    }
+  ]
+}

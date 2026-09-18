@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wedding Photography</title>
+    <meta name="description" content="Wedding photography." />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='23' font-family='Helvetica,Arial' font-size='19' fill='%23fff' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E"
+    />
+    <!-- ?v= is bumped whenever these files change, so a browser can't mix a
+         cached copy of one with a fresh copy of another. -->
+    <link rel="stylesheet" href="styles.css?v=1" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="mobile-bar">
+      <a href="#/home" class="mobile-name" id="mobile-name">Wedding Photography</a>
+      <button id="nav-toggle" class="icon-btn" aria-label="Menu" aria-expanded="false">
+        <span class="burger"></span>
+      </button>
+    </header>
+
+    <div id="nav-backdrop" class="nav-backdrop"></div>
+
+    <aside id="sidebar" class="sidebar">
+      <a href="#/home" class="site-name" id="site-name">Wedding Photography</a>
+      <nav id="nav-content" class="nav" aria-label="Site"></nav>
+    </aside>
+
+    <main id="main" class="main"></main>
+
+    <button id="edit-site-btn" class="pill-btn edit-site-btn">Edit site</button>
+
+    <div id="edit-bar" class="edit-bar" hidden>
+      <div id="edit-notice" class="edit-notice" hidden>
+        <span></span>
+        <button type="button" id="edit-notice-close" aria-label="Dismiss">&times;</button>
+      </div>
+      <div class="edit-bar-inner">
+        <span class="save-status" id="save-status">Editing</span>
+        <div class="edit-bar-actions">
+          <button id="btn-add-photo" class="pill-btn">Add photos</button>
+          <button id="btn-add-text" class="pill-btn">Add text</button>
+          <button id="btn-arrange" class="pill-btn">Arrange</button>
+          <button id="btn-typography" class="pill-btn">Style</button>
+          <button id="btn-pages" class="pill-btn">Pages</button>
+          <button id="btn-connect" class="pill-btn">Connect</button>
+          <button id="btn-save-now" class="pill-btn pill-solid">Save now</button>
+          <button id="btn-exit-edit" class="pill-btn">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" id="file-input" accept="image/*" multiple hidden />
+    <input type="file" id="replace-input" accept="image/*" hidden />
+    <input type="file" id="cursor-input" accept="image/png,image/svg+xml,image/*" hidden />
+    <input type="file" id="logo-input" accept="image/png,image/svg+xml,image/*" hidden />
+
+    <div id="modal-root"></div>
+
+    <script src="js/data.js?v=1"></script>
+    <script src="js/store.js?v=1"></script>
+    <script src="js/images.js?v=1"></script>
+    <script src="js/github.js?v=1"></script>
+    <script src="js/layout.js?v=1"></script>
+    <script src="js/crop.js?v=1"></script>
+    <script src="js/app.js?v=1"></script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+name: Deploy to GitHub Pages
+
+# Manual-only. Pages is currently published straight from the main branch
+# (Settings > Pages > Source: "Deploy from a branch"), because the Actions
+# publishing pipeline was accepting deployments and leaving them in
+# deployment_queued until this action's 10-minute cap, on every run.
+#
+# To go back to deploying via Actions: set Source back to "GitHub Actions"
+# and restore the push trigger below.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      # Publish only what the site actually serves. The original camera files
+      # in the repo root aren't referenced by the site — shipping them made the
+      # Pages artifact ~37MB and slowed every deploy. They stay in the repo,
+      # they just aren't deployed. Photos published from the editor live in
+      # photos/ and are included.
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '_site' \
+            --exclude 'IMG_*.jpg' \
+            --exclude 'IMG_*.JPG' \
+            --exclude 'IMG_*.jpeg' \
+            ./ _site/
+          echo "Deploying $(du -sh _site | cut -f1):"
+          find _site -maxdepth 1 -mindepth 1 -printf '  %f\n' | sort
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          # GitHub's Pages queue can sit in deployment_queued for a while;
+          # the default gave up too early.
+          timeout: 900000

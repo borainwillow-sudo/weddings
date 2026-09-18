@@ -1,0 +1,18 @@
+# Netlify cache rules.
+#
+# The site's code must never be served stale: a browser holding an old app.js
+# alongside a fresh store.js produced real breakage. Always revalidate it.
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Published images are content-addressed — a new photo always gets a new
+# filename — so they can be cached indefinitely. This is what keeps a page of
+# a few hundred photos fast on a second visit.
+/photos/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/cursors/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/logo/*
+  Cache-Control: public, max-age=31536000, immutable
