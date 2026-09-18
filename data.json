@@ -483,7 +483,18 @@
         "description": "",
         "align": "center"
       },
-      "body": ""
+      "body": "",
+      "texts": [
+        {
+          "id": "mu711ux9na1rj7",
+          "type": "text",
+          "text": "",
+          "align": "left",
+          "x": 1,
+          "y": 4,
+          "w": 48
+        }
+      ]
     }
   ],
   "logo": {
