@@ -393,42 +393,6 @@
       "texts": []
     },
     {
-      "id": "about-2",
-      "title": "about",
-      "type": "gallery",
-      "header": {
-        "title": "",
-        "meta": "",
-        "quote": "",
-        "description": "",
-        "align": "center"
-      },
-      "photos": [
-        {
-          "id": "mu6x8eampc4cfi",
-          "display": "photos/mu6x8eampc4cfi.jpg",
-          "thumb": "photos/mu6x8eampc4cfi-t.jpg",
-          "width": 2560,
-          "height": 2029,
-          "caption": "",
-          "x": 15.91,
-          "y": 0,
-          "w": 68.18
-        }
-      ],
-      "texts": [
-        {
-          "id": "mu6x8l1gka9ul5",
-          "type": "text",
-          "text": "Willow Borain is a documentary photographer from Cape Town with over 10 years of experience. Her wedding work is shot entirely on film, making photographs that are authentic, fun and timeless.",
-          "align": "center",
-          "x": 3.28,
-          "y": 64.98,
-          "w": 93.44
-        }
-      ]
-    },
-    {
       "id": "about",
       "title": "Contact",
       "type": "text",
@@ -469,6 +433,42 @@
           "x": 9.41,
           "y": 0,
           "w": 81.19
+        }
+      ]
+    },
+    {
+      "id": "about-2",
+      "title": "about",
+      "type": "gallery",
+      "header": {
+        "title": "",
+        "meta": "",
+        "quote": "",
+        "description": "",
+        "align": "center"
+      },
+      "photos": [
+        {
+          "id": "mu6x8eampc4cfi",
+          "display": "photos/mu6x8eampc4cfi.jpg",
+          "thumb": "photos/mu6x8eampc4cfi-t.jpg",
+          "width": 2560,
+          "height": 2029,
+          "caption": "",
+          "x": 15.91,
+          "y": 0,
+          "w": 68.18
+        }
+      ],
+      "texts": [
+        {
+          "id": "mu6x8l1gka9ul5",
+          "type": "text",
+          "text": "Willow Borain is a documentary photographer from Cape Town with over 10 years of experience. Her wedding work is shot entirely on film, making photographs that are authentic, fun and timeless.",
+          "align": "center",
+          "x": 3.28,
+          "y": 64.98,
+          "w": 93.44
         }
       ]
     }
