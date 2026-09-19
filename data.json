@@ -411,9 +411,9 @@
           "width": 2560,
           "height": 2029,
           "caption": "",
-          "x": 15.9,
+          "x": 15.91,
           "y": 0,
-          "w": 66.99267368562232
+          "w": 68.18
         }
       ],
       "texts": [
@@ -422,8 +422,8 @@
           "type": "text",
           "text": "My name is Willow, I'm a documentary & portrait photographer. I would like to be your wedding photographer.",
           "align": "center",
-          "x": 10.9,
-          "y": 48.08,
+          "x": 10.895000000000005,
+          "y": 57.09077990879828,
           "w": 78.21
         }
       ]
