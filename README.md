@@ -163,6 +163,24 @@ wordmark. Use a PNG with a transparent background.
   strip rather than a column — 100% is the default size, up to 300% for a
   much bigger wordmark in the top bar.
 
+## Contact form
+
+A page can have a real contact form (name, email, wedding date, message,
+and a Send button) below its content, instead of only a mailto: link.
+
+1. In **Pages**, check **Form** next to the page you want it on.
+2. Sign up at [formspree.io](https://formspree.io) with the email you want
+   enquiries delivered to, and create a form there — it gives you an address
+   like `https://formspree.io/f/abcd1234`.
+3. Paste that address into **Style → Contact form**.
+
+That address is shared by every page with the form turned on. Until it's
+filled in, a page with the form on shows a reminder in edit mode and nothing
+at all to visitors — never a form that can't actually send anything. This
+site has no server of its own, so Formspree (or a service like it) is what
+actually delivers the email; GitHub Pages only serves static files. The free
+Formspree plan covers 50 submissions a month.
+
 ## Custom cursor
 
 **Style → Cursor → Upload image** takes a small PNG with a transparent

@@ -340,6 +340,50 @@ img {
   color: var(--ink);
 }
 
+/* ---------- contact form ---------- */
+
+.contact-form-wrap {
+  max-width: 34rem;
+  margin: 2.4rem 0;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: var(--f-body-weight);
+  font-size: var(--f-body-size);
+  color: var(--muted);
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-family: inherit;
+  font-size: var(--f-body-size);
+  color: var(--ink);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 0.4rem 0;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-bottom-color: var(--ink);
+}
+
+.contact-form button {
+  align-self: flex-start;
+}
+
 /* ---------- free-form photo canvas ---------- */
 
 .canvas {
@@ -881,6 +925,21 @@ body.is-editing {
 .page-row input {
   margin-bottom: 0;
   flex: 1;
+}
+
+.page-form-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.page-form-toggle input {
+  flex: none;
+  margin: 0;
 }
 
 .page-row.child {

@@ -453,6 +453,38 @@
     return /^#/.test(href) || /^\/(?!\/)/.test(href);
   }
 
+  // A fixed, non-draggable section — not a canvas item — since a stack of
+  // form fields doesn't work as a resizable block the way a photo or a line
+  // of text does. Posts straight to Formspree (or whatever the endpoint is);
+  // there's no backend of this site's own to receive it, so nothing here can
+  // process the submission itself. Without an endpoint set, a visitor never
+  // sees a form that can't work; an editor sees a reminder instead.
+  function contactFormHTML(page) {
+    if (!page.contactForm) return "";
+    var endpoint = data.formEndpoint || "";
+    var editing = window.WB.isEditing();
+    if (!endpoint) {
+      return editing
+        ? '<div class="contact-form-wrap"><p class="hint">This page\'s contact form is on, but no address is ' +
+          "set for it yet — add one under Style → Contact form. Visitors won't see the form until then.</p></div>"
+        : "";
+    }
+    return (
+      '<div class="contact-form-wrap">' +
+      '<form class="contact-form" action="' +
+      esc(endpoint) +
+      '" method="POST">' +
+      '<input type="hidden" name="_subject" value="New enquiry from your website">' +
+      "<label>Name<input type=\"text\" name=\"name\" required></label>" +
+      "<label>Email<input type=\"email\" name=\"email\" required></label>" +
+      "<label>Wedding date<input type=\"date\" name=\"wedding_date\"></label>" +
+      "<label>Message<textarea name=\"message\" rows=\"5\" required></textarea></label>" +
+      '<button type="submit" class="pill-btn pill-solid">Send</button>' +
+      "</form>" +
+      "</div>"
+    );
+  }
+
   // ---------- photo adjustments ----------
   //
   // Rotation and saturation are stored as numbers and applied when the photo
@@ -776,6 +808,7 @@
       '<div class="snap-overlay"></div>' +
       "</div></div>" +
       emptyNote +
+      contactFormHTML(page) +
       '<div class="page-footer"></div>';
 
     var canvas = $("canvas");
@@ -1064,6 +1097,15 @@
         '<input type="number" id="footer-space-num" min="0" max="100" step="5" value="' +
         footerSpace +
         '"></div>' +
+        '<div class="group-heading">Contact form</div>' +
+        '<p class="hint">Where a page\'s contact form (turned on per page under Pages) sends its submissions. ' +
+        'Sign up at <strong>formspree.io</strong> with the email you want enquiries to land in, create a form there, ' +
+        'and paste the address it gives you here — something like ' +
+        '<code>https://formspree.io/f/abcd1234</code>. Until this is filled in, a page\'s form only shows a reminder, ' +
+        "not the form itself.</p>" +
+        '<input type="text" id="form-endpoint" placeholder="https://formspree.io/f/…" value="' +
+        esc(data.formEndpoint || "") +
+        '" spellcheck="false">' +
         '<div class="group-heading">On phones</div>' +
         '<p class="hint">A phone screen is far narrower than the one a layout is composed on, so either the whole arrangement is shrunk to fit, or the photos are stacked into a simple grid instead.</p>' +
         '<div class="typo-row"><span>Layout</span>' +
@@ -1162,6 +1204,12 @@
       setFooterSpace(this.value);
     });
 
+    modal.querySelector("#form-endpoint").addEventListener("input", function () {
+      data.formEndpoint = this.value.trim();
+      renderPage();
+      markDirty();
+    });
+
     modal.querySelector("#phone-layout").addEventListener("change", function () {
       data.phoneLayout = this.value === "stacked" ? "stacked" : "desktop";
       applyPhoneLayout();
@@ -1224,6 +1272,13 @@
     // Buttons rather than drag-and-drop: reordering has to work on a
     // touchscreen, where dragging a list row fights with scrolling the panel.
     function rowHTML(page, isChild, index, total) {
+      var formToggle =
+        page.type === "group"
+          ? ""
+          : '<label class="page-form-toggle" title="Add a contact form to this page">' +
+            '<input type="checkbox" data-page-form' +
+            (page.contactForm ? " checked" : "") +
+            "> Form</label>";
       return (
         '<div class="page-row' +
         (isChild ? " child" : "") +
@@ -1233,6 +1288,7 @@
         '<input type="text" value="' +
         esc(page.title) +
         '" data-page-title>' +
+        formToggle +
         '<button class="move-btn" data-move="up" title="Move up"' +
         (index === 0 ? " disabled" : "") +
         ">&uarr;</button>" +
@@ -1245,7 +1301,7 @@
     }
 
     var html = "<h3>Pages</h3>" +
-      '<p class="hint">Rename pages, reorder them with the arrows, remove them, or add new ones. The order here is the order they appear in the menu. Deleting a page also deletes its photos from the site.</p>';
+      '<p class="hint">Rename pages, reorder them with the arrows, remove them, or add new ones. The order here is the order they appear in the menu. Deleting a page also deletes its photos from the site. Check <strong>Form</strong> to add a contact form to the bottom of a page — set its destination under Style first.</p>';
 
     var topCount = (data.pages || []).length;
     (data.pages || []).forEach(function (page, topIndex) {
@@ -1280,6 +1336,16 @@
       if (!page) return;
       page.title = e.target.value;
       renderNav();
+      markDirty();
+    });
+
+    modal.addEventListener("change", function (e) {
+      if (!e.target.matches("[data-page-form]")) return;
+      var id = e.target.closest(".page-row").dataset.page;
+      var page = findPage(data, id);
+      if (!page) return;
+      page.contactForm = e.target.checked;
+      render();
       markDirty();
     });
 
