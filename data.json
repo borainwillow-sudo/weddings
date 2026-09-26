@@ -412,7 +412,8 @@
           "y": 0,
           "w": 81.19
         }
-      ]
+      ],
+      "contactForm": true
     },
     {
       "id": "about-2",
