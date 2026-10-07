@@ -113,17 +113,6 @@
           "w": 44.5
         },
         {
-          "id": "mu6qo4agmdwp7s",
-          "display": "photos/muy7u1ereb7t1k.jpg",
-          "thumb": "photos/muy7u1ereb7t1k-t.jpg",
-          "width": 1516,
-          "height": 1958,
-          "caption": "",
-          "x": 52.5,
-          "y": 248.64,
-          "w": 44.5
-        },
-        {
           "id": "mu6qo4zap2jedw",
           "display": "photos/muy7kguz1cbc08.jpg",
           "thumb": "photos/muy7kguz1cbc08-t.jpg",
@@ -186,7 +175,7 @@
           "width": 1715,
           "height": 2560,
           "caption": "",
-          "x": 52.5,
+          "x": 3,
           "y": 391.31,
           "w": 44.5
         },
@@ -263,8 +252,8 @@
           "width": 2063,
           "height": 2560,
           "caption": "",
-          "x": 3,
-          "y": 397.73,
+          "x": 52.5,
+          "y": 391.31,
           "w": 44.5
         },
         {
@@ -274,8 +263,8 @@
           "width": 2063,
           "height": 2560,
           "caption": "",
-          "x": 53.555057926578925,
-          "y": 387.35338227876315,
+          "x": 52.5,
+          "y": 248.64,
           "w": 44.5
         },
         {
@@ -286,7 +275,7 @@
           "height": 2560,
           "caption": "",
           "x": 3,
-          "y": 885.06,
+          "y": 692.4,
           "w": 44.5
         },
         {
@@ -297,7 +286,7 @@
           "height": 2560,
           "caption": "",
           "x": 52.5,
-          "y": 885.06,
+          "y": 692.4,
           "w": 44.5
         },
         {
@@ -307,9 +296,9 @@
           "width": 508,
           "height": 500,
           "caption": "",
-          "x": 35.59,
-          "y": 963.75,
-          "w": 28.83,
+          "x": 52.5,
+          "y": 756.62,
+          "w": 44.5,
           "title": "instagram",
           "link": "https://www.instagram.com/weddings0nfilm?stkn=NmhuZDcwbXVzNXc2"
         }
@@ -320,9 +309,9 @@
           "type": "text",
           "text": "Want your wedding to look like this?\nEmail me here",
           "align": "center",
-          "x": 20.16,
-          "y": 947.33,
-          "w": 59.67,
+          "x": 3,
+          "y": 756.62,
+          "w": 44.5,
           "link": "mailto:borainwillow@gmail.com",
           "underline": [
             [
