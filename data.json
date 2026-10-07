@@ -362,13 +362,23 @@
           "height": 500,
           "caption": "",
           "x": 35.85,
-          "y": 953.27,
+          "y": 964.34,
           "w": 28.3,
           "title": "instagram",
           "link": "https://www.instagram.com/weddings0nfilm?stkn=NmhuZDcwbXVzNXc2"
         }
       ],
-      "texts": []
+      "texts": [
+        {
+          "id": "muy7gofpyqok3r",
+          "type": "text",
+          "text": "",
+          "align": "left",
+          "x": 1,
+          "y": 996.19,
+          "w": 48
+        }
+      ]
     }
   ],
   "logo": {
