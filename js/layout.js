@@ -427,10 +427,10 @@
   }
 
   var TOP_MARGIN = 4;
-  var GAP = 4;
+  var GAP = 9;
   var COLUMNS = 2;
-  var COL_GAP = 2;
-  var SIDE = 1;
+  var COL_GAP = 5;
+  var SIDE = 3;
 
   // Column x positions and width, as percentages of the canvas.
   function columnGeometry(n) {
