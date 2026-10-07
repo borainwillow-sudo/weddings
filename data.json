@@ -369,51 +369,6 @@
         }
       ],
       "texts": []
-    },
-    {
-      "id": "about",
-      "title": "Contact",
-      "type": "text",
-      "header": {
-        "title": "",
-        "meta": "",
-        "quote": "",
-        "description": "",
-        "align": "center"
-      },
-      "body": "",
-      "texts": [
-        {
-          "id": "mu711ux9na1rj7",
-          "type": "text",
-          "text": "Planning a wedding? Email me here. \n\nInclude your names, your wedding date, the venue or town and a rough guest count. Tell me a little about the day you're planning and attach a link to a mood-board if you've made one. \n\nI'll reply with my packages and we can set up a video call.",
-          "align": "center",
-          "x": 4.43,
-          "y": 63.34,
-          "w": 92.54,
-          "link": "mailto:borainwillow@gmail.com",
-          "underline": [
-            [
-              20,
-              34
-            ]
-          ]
-        }
-      ],
-      "photos": [
-        {
-          "id": "mu71yvd1914iys",
-          "display": "photos/mu71yvd1914iys.jpg",
-          "thumb": "photos/mu71yvd1914iys-t.jpg",
-          "width": 2560,
-          "height": 1731,
-          "caption": "",
-          "x": 9.41,
-          "y": 0,
-          "w": 81.19
-        }
-      ],
-      "contactForm": false
     }
   ],
   "logo": {
