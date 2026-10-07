@@ -373,10 +373,11 @@
           "id": "muy7gofpyqok3r",
           "type": "text",
           "text": "Want your wedding to look like this?\nEmail me here",
-          "align": "left",
+          "align": "center",
           "x": 1,
           "y": 996.19,
-          "w": 48
+          "w": 48,
+          "link": "mailto:borainwillow@gmail.com"
         }
       ]
     }
