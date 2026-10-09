@@ -97,9 +97,10 @@
           "width": 2048,
           "height": 1314,
           "caption": "",
-          "x": 3.26,
+          "x": 3,
           "y": 747.26,
-          "w": 94.36
+          "w": 94,
+          "full": true
         },
         {
           "id": "mu6qo4zap2jedw",
@@ -245,7 +246,8 @@
           "caption": "",
           "x": 3,
           "y": 617,
-          "w": 94
+          "w": 94,
+          "full": true
         },
         {
           "id": "muznqcu0kts8j0",
@@ -289,7 +291,8 @@
           "caption": "",
           "x": 3,
           "y": 816.8,
-          "w": 93.48
+          "w": 94,
+          "full": true
         },
         {
           "id": "mv0orhnmm3yvp6",
