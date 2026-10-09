@@ -87,8 +87,11 @@ after that it asks for it. In edit mode you can:
 
 ### Everything else in edit mode
 
-- **Replace / Crop / Adjust / Link / Front / Remove** from the buttons above a
-  photo on hover
+- **Replace / Crop / Adjust / Link / Full width / Front / Remove** from the
+  buttons above a photo on hover. **Full width** spans the photo across the
+  whole row instead of a column's share — **Arrange** leaves a photo marked
+  this way alone rather than resizing it back down, so a wide landscape shot
+  can stay big. Click it again (now labelled **Column width**) to undo it.
 - Edit any text directly on the page (titles, captions, body copy)
 - **Style** — set the weight and size for each kind of text, and upload a custom cursor
 - **Pages** — rename, reorder, add and delete pages and sections

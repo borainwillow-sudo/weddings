@@ -441,17 +441,40 @@
     return { width: Math.round(width * 100) / 100, xs: xs };
   }
 
+  // Full width of the canvas within the side margins — a photo marked .full
+  // (the "Full width" toggle) gets this instead of a column's share.
+  function fullWidth() {
+    return Math.round((100 - 2 * SIDE) * 100) / 100;
+  }
+
   // Reflows every photo into columns, in their current order, n at a time per
   // row. Everything in a row shares the same y — the pairs line up across the
   // columns rather than each column packing independently — and the row's
   // height is whichever item in it is tallest, so the next row starts clear
-  // of all of them.
+  // of all of them. An item marked .full (set by the photo's "Full width"
+  // toggle, not by Arrange) always takes a whole row to itself instead of
+  // being squeezed into a column — that's the point of marking it.
   function arrangeInColumns(items, n) {
     n = n || COLUMNS;
     var geo = columnGeometry(n);
+    var fw = fullWidth();
     var y = TOP_MARGIN;
-    for (var i = 0; i < items.length; i += n) {
-      var row = items.slice(i, i + n);
+    var i = 0;
+    while (i < items.length) {
+      if (items[i].full) {
+        var p = items[i];
+        p.x = geo.xs[0];
+        p.y = Math.round(y * 100) / 100;
+        p.w = fw;
+        y += heightPct(p) + GAP;
+        i += 1;
+        continue;
+      }
+      var row = [];
+      while (row.length < n && i < items.length && !items[i].full) {
+        row.push(items[i]);
+        i++;
+      }
       var rowHeight = 0;
       row.forEach(function (p, col) {
         p.x = Math.round(geo.xs[col] * 100) / 100;
@@ -467,13 +490,21 @@
   // layout: alongside the last item if its row isn't full yet, or a fresh row
   // below everything if it is. Assumes items are already arranged this way,
   // which holds as long as nothing but this function and arrangeInColumns
-  // ever place a photo.
+  // ever place a photo. A trailing .full item always closes its row by
+  // itself, so only the run of ordinary items after the last .full one (if
+  // any) counts toward the open row.
   function resumeRowState(items, n) {
     n = n || COLUMNS;
     if (!items.length) return { col: 0, y: TOP_MARGIN };
-    var col = items.length % n;
+    var last = items[items.length - 1];
+    if (last.full) {
+      return { col: 0, y: Math.round((contentBottom(items) + GAP) * 100) / 100 };
+    }
+    var count = 0;
+    for (var i = items.length - 1; i >= 0 && !items[i].full; i--) count++;
+    var col = count % n;
     if (col === 0) return { col: 0, y: Math.round((contentBottom(items) + GAP) * 100) / 100 };
-    return { col: col, y: items[items.length - 1].y };
+    return { col: col, y: last.y };
   }
 
   // The height of a row once every item that landed in it is known — used to
@@ -528,6 +559,7 @@
       visualOrder: visualOrder,
       arrangeInColumns: arrangeInColumns,
       columnGeometry: columnGeometry,
+      fullWidth: fullWidth,
       resumeRowState: resumeRowState,
       rowHeightAt: rowHeightAt,
       clearSelection: clearSelection,

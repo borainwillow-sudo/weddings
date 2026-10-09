@@ -638,6 +638,9 @@
         '<button data-photo-action="crop">Crop</button>' +
         '<button data-photo-action="adjust">Adjust</button>' +
         '<button data-photo-action="link">Link</button>' +
+        '<button data-photo-action="full">' +
+        (photo.full ? "Column width" : "Full width") +
+        "</button>" +
         '<button data-photo-action="front">Front</button>' +
         '<button data-photo-action="remove" class="danger">Remove</button>' +
         "</div>"
@@ -705,6 +708,11 @@
         ? '<span class="link-flag" title="' + esc(photo.link) + '">link</span>'
         : "";
 
+    var fullFlag =
+      editing && photo.full
+        ? '<span class="link-flag full-flag" title="Spans the full row — Arrange leaves it alone">full width</span>'
+        : "";
+
     return (
       '<div class="photo-block" data-item-id="' +
       esc(photo.id) +
@@ -715,6 +723,7 @@
       '">' +
       tools +
       linkFlag +
+      fullFlag +
       media +
       caption +
       handle +
@@ -1814,6 +1823,20 @@
     if (action === "front") {
       page.photos.splice(idx, 1);
       page.photos.push(photo);
+      render();
+      markDirty();
+      return;
+    }
+
+    // Spans the full row instead of a column's share, immediately and from
+    // then on — Arrange skips resizing a photo marked this way, which is the
+    // point: a wide landscape shot that should stay big rather than being
+    // squeezed down to half a row every time the rest of the page is tidied.
+    if (action === "full") {
+      photo.full = !photo.full;
+      var geo = window.WB.layout.columnGeometry();
+      photo.x = geo.xs[0];
+      photo.w = photo.full ? window.WB.layout.fullWidth() : geo.width;
       render();
       markDirty();
       return;

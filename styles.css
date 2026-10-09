@@ -485,6 +485,11 @@ img {
   padding: 2px 6px;
 }
 
+.full-flag {
+  right: auto;
+  left: 0;
+}
+
 .cursor-row {
   display: flex;
   align-items: center;
