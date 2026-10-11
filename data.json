@@ -295,14 +295,15 @@
         },
         {
           "id": "mv3u04pwgjigyn",
-          "display": "photos/mv3u04pwgjigyn.jpg",
-          "thumb": "photos/mv3u04pwgjigyn-t.jpg",
-          "width": 2560,
-          "height": 1716,
+          "display": "photos/mv3u0h40rq04j7.jpg",
+          "thumb": "photos/mv3u0h40rq04j7-t.jpg",
+          "width": 2377,
+          "height": 1619,
           "caption": "",
-          "x": 3,
-          "y": 982.02,
-          "w": 44.5
+          "x": 1.1149999999999995,
+          "y": 839.1247455409788,
+          "w": 94,
+          "full": true
         }
       ],
       "texts": [
