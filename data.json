@@ -292,6 +292,17 @@
           "y": 74.06,
           "w": 74.75,
           "full": true
+        },
+        {
+          "id": "mv3u04pwgjigyn",
+          "display": "photos/mv3u04pwgjigyn.jpg",
+          "thumb": "photos/mv3u04pwgjigyn-t.jpg",
+          "width": 2560,
+          "height": 1716,
+          "caption": "",
+          "x": 3,
+          "y": 982.02,
+          "w": 44.5
         }
       ],
       "texts": [
