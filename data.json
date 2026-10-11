@@ -76,7 +76,7 @@
           "height": 2445,
           "caption": "",
           "x": 52.5,
-          "y": 654.53,
+          "y": 661.37,
           "w": 44.5
         },
         {
@@ -87,7 +87,7 @@
           "height": 2530,
           "caption": "",
           "x": 3,
-          "y": 654.53,
+          "y": 661.37,
           "w": 44.5
         },
         {
@@ -97,8 +97,8 @@
           "width": 2048,
           "height": 1314,
           "caption": "",
-          "x": 0,
-          "y": 971.2296062992126,
+          "x": 3,
+          "y": 958.63,
           "w": 94,
           "full": true
         },
@@ -143,7 +143,7 @@
           "height": 2560,
           "caption": "",
           "x": 52.5,
-          "y": 873.9,
+          "y": 883.21,
           "w": 44.5
         },
         {
@@ -154,7 +154,7 @@
           "height": 2560,
           "caption": "",
           "x": 3,
-          "y": 873.9,
+          "y": 883.21,
           "w": 44.5
         },
         {
@@ -165,7 +165,7 @@
           "height": 2430,
           "caption": "",
           "x": 52.5,
-          "y": 729.95,
+          "y": 736.56,
           "w": 44.5
         },
         {
@@ -187,7 +187,7 @@
           "height": 2431,
           "caption": "",
           "x": 3,
-          "y": 729.95,
+          "y": 736.56,
           "w": 44.5
         },
         {
@@ -230,8 +230,8 @@
           "width": 508,
           "height": 500,
           "caption": "",
-          "x": 52.5,
-          "y": 949.33,
+          "x": 3,
+          "y": 1027.94,
           "w": 44.5,
           "title": "instagram",
           "link": "https://www.instagram.com/weddings0nfilm?stkn=NmhuZDcwbXVzNXc2"
@@ -244,7 +244,7 @@
           "height": 1372,
           "caption": "",
           "x": 3,
-          "y": 582.55,
+          "y": 589.4,
           "w": 94,
           "full": true
         },
@@ -312,8 +312,8 @@
           "width": 2560,
           "height": 1716,
           "caption": "",
-          "x": 2.49,
-          "y": 808.16,
+          "x": 3,
+          "y": 811.2,
           "w": 94,
           "full": true
         }
@@ -324,8 +324,8 @@
           "type": "text",
           "text": "Want your wedding to look like this?\nEmail me here",
           "align": "center",
-          "x": 3,
-          "y": 949.33,
+          "x": 52.5,
+          "y": 1027.94,
           "w": 44.5,
           "link": "mailto:borainwillow@gmail.com",
           "underline": [
