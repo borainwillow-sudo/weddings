@@ -64,8 +64,8 @@
           "width": 1701,
           "height": 2530,
           "caption": "",
-          "x": 3,
-          "y": 661.37,
+          "x": 1.93,
+          "y": 1024.49,
           "w": 44.5
         },
         {
@@ -208,8 +208,8 @@
           "width": 508,
           "height": 500,
           "caption": "",
-          "x": 38.85,
-          "y": 1050.98,
+          "x": 36.35,
+          "y": 1175.79,
           "w": 22.31,
           "title": "instagram",
           "link": "https://www.instagram.com/weddings0nfilm?stkn=NmhuZDcwbXVzNXc2"
@@ -233,8 +233,8 @@
           "width": 1664,
           "height": 2478,
           "caption": "",
-          "x": 3,
-          "y": 514.13,
+          "x": 1.93,
+          "y": 666.93,
           "w": 44.5
         },
         {
@@ -316,6 +316,17 @@
           "x": 52.5,
           "y": 0,
           "w": 44.5
+        },
+        {
+          "id": "mw0jo8ym76n17u",
+          "display": "photos/mw0jo8ym76n17u.jpg",
+          "thumb": "photos/mw0jo8ym76n17u-t.jpg",
+          "width": 1716,
+          "height": 2560,
+          "caption": "",
+          "x": 1.93,
+          "y": 520.78,
+          "w": 44.5
         }
       ],
       "texts": [
@@ -324,8 +335,8 @@
           "type": "text",
           "text": "Want your wedding to look like this?\nEmail me here",
           "align": "center",
-          "x": 17.92,
-          "y": 1027.94,
+          "x": 12.77,
+          "y": 1127.12,
           "w": 64.16,
           "link": "mailto:borainwillow@gmail.com",
           "underline": [
