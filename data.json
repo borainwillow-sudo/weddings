@@ -186,9 +186,9 @@
           "width": 508,
           "height": 500,
           "caption": "",
-          "x": 52.5,
-          "y": 1172.35,
-          "w": 44.5,
+          "x": 38,
+          "y": 1207.95,
+          "w": 24,
           "title": "instagram",
           "link": "https://www.instagram.com/weddings0nfilm?stkn=NmhuZDcwbXVzNXc2"
         },
@@ -358,9 +358,9 @@
           "type": "text",
           "text": "Want your wedding to look like this?\nEmail me here",
           "align": "center",
-          "x": 3,
-          "y": 1172.35,
-          "w": 44.5,
+          "x": 10.77,
+          "y": 1179.68,
+          "w": 78.45,
           "link": "mailto:borainwillow@gmail.com",
           "underline": [
             [
