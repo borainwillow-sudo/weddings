@@ -53,9 +53,9 @@
           "width": 1701,
           "height": 2530,
           "caption": "",
-          "x": 53.87,
-          "y": 954.63,
-          "w": 41.76
+          "x": 52.5,
+          "y": 1024.12,
+          "w": 44.5
         },
         {
           "id": "mu6qnim5u7cxqe",
@@ -65,7 +65,7 @@
           "height": 1314,
           "caption": "",
           "x": 3,
-          "y": 807.22,
+          "y": 879.39,
           "w": 94,
           "full": true
         },
@@ -88,7 +88,7 @@
           "height": 2560,
           "caption": "",
           "x": 3,
-          "y": 951.95,
+          "y": 1024.12,
           "w": 44.5
         },
         {
@@ -99,7 +99,7 @@
           "height": 2560,
           "caption": "",
           "x": 52.5,
-          "y": 876.53,
+          "y": 948.7,
           "w": 44.5
         },
         {
@@ -110,7 +110,7 @@
           "height": 2560,
           "caption": "",
           "x": 3,
-          "y": 876.53,
+          "y": 948.7,
           "w": 44.5
         },
         {
@@ -121,7 +121,7 @@
           "height": 2430,
           "caption": "",
           "x": 52.5,
-          "y": 732.57,
+          "y": 804.74,
           "w": 44.5
         },
         {
@@ -143,7 +143,7 @@
           "height": 2431,
           "caption": "",
           "x": 3,
-          "y": 732.57,
+          "y": 804.74,
           "w": 44.5
         },
         {
@@ -186,9 +186,9 @@
           "width": 508,
           "height": 500,
           "caption": "",
-          "x": 38.88,
-          "y": 1055.71,
-          "w": 22.25,
+          "x": 52.5,
+          "y": 1172.35,
+          "w": 44.5,
           "title": "instagram",
           "link": "https://www.instagram.com/weddings0nfilm?stkn=NmhuZDcwbXVzNXc2"
         },
@@ -291,8 +291,8 @@
           "height": 2416,
           "caption": "",
           "x": 52.5,
-          "y": 511.9,
-          "w": 42.32
+          "y": 509.91,
+          "w": 44.5
         },
         {
           "id": "mw0jpjdlwdk2ti",
@@ -312,9 +312,9 @@
           "width": 1625,
           "height": 2425,
           "caption": "",
-          "x": 54.68,
-          "y": 154.06,
-          "w": 42.32
+          "x": 52.5,
+          "y": 152.42,
+          "w": 44.5
         },
         {
           "id": "mw0jrp9qjcqh6c",
@@ -335,8 +335,21 @@
           "height": 1659,
           "caption": "",
           "x": 3,
-          "y": 1086.61,
-          "w": 44.5
+          "y": 731.86,
+          "w": 94,
+          "full": true
+        },
+        {
+          "id": "mw0kcstsvk4p5x",
+          "display": "photos/mw0kcstsvk4p5x.jpg",
+          "thumb": "photos/mw0kcstsvk4p5x-t.jpg",
+          "width": 2434,
+          "height": 1653,
+          "caption": "",
+          "x": 3,
+          "y": 1099.51,
+          "w": 94,
+          "full": true
         }
       ],
       "texts": [
@@ -345,9 +358,9 @@
           "type": "text",
           "text": "Want your wedding to look like this?\nEmail me here",
           "align": "center",
-          "x": 11.09,
-          "y": 1028.73,
-          "w": 77.82,
+          "x": 3,
+          "y": 1172.35,
+          "w": 44.5,
           "link": "mailto:borainwillow@gmail.com",
           "underline": [
             [
